@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <!-- namespace: 이름공간, XML을 사용하는 여러기술을 사용하는 경우 tag가 충돌, 충돌을 없애기 위한 기술 -->
+  <!-- tag에 접두사가 없으면 default namespace를 사용했다 라고한다. -->
+  <!-- Top level element -->
+  	<error-page>
+  		<error-code>404</error-code>
+  		<location>/error/error404.jsp</location>
+  	</error-page>
+  	<error-page>
+  		<error-code>500</error-code>
+  		<location>/error/error500.jsp</location>
+  	</error-page>
+  
+	<!-- filter 등록 -->
+	<filter>
+		<filter-name>timecheck</filter-name>
+		<filter-class>com.shinhan.filter.TimeCheckFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>timecheck</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+  
+  <!-- data 읽어오기 위해서 -->
+  <context-param>
+  	<param-name>DB_userid</param-name>
+  	<param-value>hr</param-value>
+  </context-param>
+    <context-param>
+  	<param-name>DB_userpass</param-name>
+  	<param-value>1234</param-value>
+  </context-param>
+  
+  
+  <!-- 서블릿 등록  @WebServlet과 같음 -->
+   
+  <servlet>
+  	<servlet-name>initparam</servlet-name>
+  	<servlet-class>com.shinhan.controller.InitParamServlet</servlet-class>
+  	<init-param>
+  		<param-name>address</param-name>
+  		<param-value>서울시 노원구 중계동</param-value>
+  	</init-param>
+	<init-param>
+ 		<param-name>phone</param-name>
+ 		<param-value>010-5656-8989</param-value>
+ 	</init-param>
+ 	<load-on-startup>2</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>initparam</servlet-name>
+  	<url-pattern>/initParam</url-pattern>
+  </servlet-mapping>
+  
+  
+  <!-- 서블릿 등록  @WebServlet과 같음 -->
+  <servlet>
+  	<servlet-name>servlet1</servlet-name>
+  	<servlet-class>com.shinhan.controller.FirstServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>servlet1</servlet-name>
+  	<url-pattern>/FirstServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+  	<servlet-name>servlet1</servlet-name>
+  	<url-pattern>/first</url-pattern>
+  </servlet-mapping>
+  
+  <display-name>webShop</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  
+  
+  <resource-ref>
+	 <description>Oracle Datasource example</description>
+	 <res-ref-name>jdbc/myoracle</res-ref-name>
+	 <res-type>javax.sql.DataSource</res-type>
+	 <res-auth>Container</res-auth>
+	</resource-ref>
+</web-app>

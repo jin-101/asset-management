@@ -1,0 +1,18 @@
+$(function(){
+	const PATH = getContextPath();
+	$("#list-btn1").click(function(){
+		const titleText = $(this).text();
+		$.ajax({
+			url: PATH + "/equi/rentalPossibleEquipmentList.do",
+			method:"post",
+			success:(res)=>{
+				$("#list-btn1").html(titleText);
+				$(".change-List-contents").html(res);
+				console.log(res);
+			},
+			error:(err)=>{
+				console.log(err);
+			}
+		});
+	});
+});

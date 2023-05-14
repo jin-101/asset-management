@@ -1,0 +1,15 @@
+package controller;
+
+import java.util.Map;
+
+public class EquiListController implements CommonControllerInterface {
+
+	@Override
+	public String execute(Map<String, Object> data) throws Exception {
+		
+		String page = "equiList.jsp";
+		
+		return page;
+	}
+
+}

@@ -1,0 +1,45 @@
+$(function(){
+	const PATH = getContextPath();
+	const apiPath = {
+		'list-btn1' : "rentalPossibleEquipment.do",
+		'list-btn2' : "allEquipmentType.do",
+		'list-btn3' : "allEquipmentModel.do",
+		'list-btn4' : "usingEquipment.do",
+	};
+	
+	$(".list-all").click(function(){
+		const titleText = $(this).text();
+		$("#change-List-title").html(titleText);
+		
+		$.ajax({
+			url: PATH + "/equi/" + apiPath[$(this).attr('id')],
+			method:"post",
+			success:(res)=>{
+				$("#change-List-contents").html(res);
+			},
+			error:(err)=>{
+				console.log(err);
+			}
+		});
+	});
+	
+	$(".list-search").click(function(){
+		const titleText = $(this).text();
+		const dataTitle = $(this).attr("data-selector-title");
+		const dataName = $(this).attr("data-name");
+		$("#change-List-title").html(titleText);
+		$.ajax({
+			url: PATH + "/equi/" + apiPath[$(this).attr('id')],
+			method:"post",
+			success:(res)=>{
+				$("#change-List-contents").html(res);
+				$("#selector-name").html(dataTitle + " :");
+				$("#optionSelect").attr("name",dataName);
+			},
+			error:(err)=>{
+				console.log(err);
+			}
+		});
+	});
+	
+});

@@ -1,0 +1,14 @@
+package service;
+
+import java.util.List;
+
+import dao.EquipmentDAO;
+import vo.EquiVO;
+
+public class EquipmentService {
+	EquipmentDAO eqDao = new EquipmentDAO();
+	
+	public List<EquiVO> eqSelectAll() {
+		return eqDao.eqSelectAll();
+	}
+}

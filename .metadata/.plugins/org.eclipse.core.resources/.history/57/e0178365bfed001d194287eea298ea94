@@ -1,0 +1,43 @@
+/* header, main{
+	width:100%;
+	display:flex;
+	justify-content:center;
+}
+ */
+/* .container{
+	width: 80%;
+} */
+
+main{
+	width:100vw;
+	height:100vh;
+}
+
+main, .title-container, .menu-container {
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
+ .container{
+ 	width: 80%;
+ 	height:50%;
+ 	border:1px solid red;
+ }
+ 
+ .container h1{
+	width: 100%;
+	background-color: lightyellow;
+	color:green;
+	text-align:center;
+} 
+
+
+
+.imgBoxBtn{
+	margin : 30px;
+}
+
+.equipImg, .empImg{
+	width:300px;
+	height:200px;
+}

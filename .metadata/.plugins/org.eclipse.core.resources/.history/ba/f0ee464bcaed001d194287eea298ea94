@@ -1,0 +1,25 @@
+package dao;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import vo.EmpVO;
+
+public class EmpDAO {
+	
+	// 직원 필드 생성
+	private EmpVO makeEmp(ResultSet rs) throws SQLException {
+		EmpVO emp = new EmpVO();
+		emp.setEmployee_id(rs.getInt("Employee_id"));
+		emp.setFirst_name(rs.getString("First_name"));
+		emp.setLast_name(rs.getString("Last_name"));
+		emp.setEmail(rs.getString("Email"));
+		emp.setPhone_number(rs.getString("Phone_number"));
+		emp.setHire_date(rs.getDate("Hire_date"));
+		emp.setJobs_JOB_ID(rs.getString("jobs_JOB_ID"));
+		emp.setSalary(rs.getInt("Salary"));
+		emp.setSubpart_PART_NO(rs.getInt("subpart_PART_NO"));
+		emp.setPosition_POSITION_ID(rs.getInt("position_POSITION_ID"));
+		return emp;
+	}
+}

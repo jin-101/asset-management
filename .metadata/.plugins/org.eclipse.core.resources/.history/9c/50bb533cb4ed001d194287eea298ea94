@@ -1,0 +1,27 @@
+$(function(){
+	const PATH = getContextPath();
+	
+	$(".loginPage-btn").click(()=>{
+		const id = $("#admin_id").val();
+		const pw = $("#admin_password").val();
+		$.ajax({
+			url: PATH + "/login/signin.do",
+			data:{
+				loginID:id,
+				loginPW:pw
+			},
+			method:"POST",
+			beforeSend : () => {
+				$("#my-spinner").show();
+				$("#login-state-message").html("");
+			},
+			success:(res) => {
+				$("#my-spinner").hide();
+				$("#login-state-message").html(res);
+			},
+			error: (err)=>{
+				$("#my-spinner").hide();
+			}
+		});
+	});
+});

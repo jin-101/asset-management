@@ -1,0 +1,22 @@
+package controller;
+
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import service.EquipmentService;
+
+public class EquipmentReturnController implements CommonControllerInterface {
+
+	@Override
+	public String execute(Map<String, Object> data) throws Exception {
+		System.out.println("/////");
+		HttpServletRequest request = (HttpServletRequest) data.get("request");
+		EquipmentService service = new EquipmentService();
+		System.out.println(request.getParameter("eqId")+"@@");
+		int eqId = Integer.parseInt(request.getParameter("eqId"));
+		int resultCount = service.eqRetrun(eqId);
+		return "responseBody:"+ resultCount;
+	}
+
+}

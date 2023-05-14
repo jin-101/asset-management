@@ -1,0 +1,14 @@
+package service;
+
+import java.util.List;
+
+import dao.EmpDAO;
+import vo.EmpVO;
+
+public class EmpService {
+	EmpDAO empDao = new EmpDAO();
+	
+	public List<EmpVO> empSelectAll() {
+		
+	}
+}

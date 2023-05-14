@@ -1,0 +1,19 @@
+package controller;
+
+import java.util.Map;
+
+public class UsingEquipmentController implements CommonControllerInterface {
+
+	@Override
+	public String execute(Map<String, Object> data) throws Exception {
+		EquipmentService service = new EquipmentService();
+		List<EquiVO> eqlist = service.empUseEqAllSearch();
+				
+		HttpServletRequest request = (HttpServletRequest) data.get("request");
+		request.setAttribute("eqAll", eqlist);
+		
+		String page = "searchEquipment.jsp";
+		return page;
+	}
+
+}

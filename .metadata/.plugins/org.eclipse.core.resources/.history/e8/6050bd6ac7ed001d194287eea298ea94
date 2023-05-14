@@ -1,0 +1,31 @@
+package controller;
+
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+public class MenuController implements CommonControllerInterface {
+
+	@Override
+	public String execute(Map<String, Object> data) throws Exception {
+		String method = (String) data.get("method");
+		String page = "";
+		HttpServletRequest request = (HttpServletRequest) data.get("request");
+		
+		if(method.equals("GET")) {
+			page = "menu.jsp";
+		}else {
+			String caseNumber = request.getParameter("caseNum");
+			String path = request.getContextPath();
+			if(caseNumber.equals("0")) {
+				System.out.println("자원관리메뉴 선택");
+				page = "redirect:" + path + "/equi/equiList.do";
+			}else if(caseNumber.equals("1")){
+				System.out.println("직원관리메뉴 선택");
+				page = "redirect:" + path + "/emp/empList.do";
+			}
+		}
+		return page;
+	}
+
+}

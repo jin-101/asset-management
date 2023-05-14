@@ -1,0 +1,46 @@
+package controller;
+
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import service.AccountService;
+
+public class SigninController implements CommonControllerInterface {
+
+	@Override
+	public String execute(Map<String, Object> data) throws Exception {
+		// TODO Auto-generated method stub
+		String method = (String) data.get("method");
+		String page = "";
+		
+//		if(method.equals("GET")) {
+//			page = "signin.jsp";
+//		}else {
+		if(method.equals("POST")) {
+			HttpServletRequest request = (HttpServletRequest) data.get("request");
+			
+			String id = request.getParameter("id");
+			String password = request.getParameter("password");
+			AccountService service = new AccountService();
+			int resultCode = service.userLogin(id, password);
+			System.out.println(resultCode);
+			if(resultCode == 1) {
+				//로그인 성공
+				HttpSession session = request.getSession();
+				session.setAttribute("loginUser", session);
+				String path = request.getContextPath();
+				page = "redirect:" + path + "/login/menu.do";
+			}else if(resultCode == 0) {
+				page = "responseBody:비밀번호가 일치하지 않습니다.";
+			}else if(resultCode == -1) {
+				page = "responseBody:존재하지 않는 아이디입니다..";
+			}
+		}
+			
+		return page;
+	}
+
+}
+

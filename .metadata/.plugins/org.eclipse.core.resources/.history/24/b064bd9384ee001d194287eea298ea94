@@ -1,0 +1,30 @@
+$(function(){
+	const PATH = getContextPath();
+	const apiPath = {
+		'list-all1' : "rentalPossibleEquipment.do",
+		'list-all2' : "usingEquipment.do",
+	};
+	
+	$(".list-all").click(function(){
+		const titleText = $(this).text();
+		$("#change-List-title").html(titleText);
+		
+		$.ajax({
+			url: PATH + "/equi/" + apiPath[$(this).attr('id')],
+			method:"post",
+			success:(res)=>{
+				$(".change-List-contents").html(res);
+			},
+			error:(err)=>{
+				console.log(err);
+			}
+		});
+	});
+	
+	$(".list-search").click(function(){
+		const titleText = $(this).text();
+		$("#change-List-title").html(titleText);
+		$(".change-List-contents").html("");
+	});
+	
+});

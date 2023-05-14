@@ -1,0 +1,37 @@
+$(function(){
+	const PATH = getContextPath();
+	
+	//대여가능장비 전체조회
+	$("#list-btn1").click(function(){
+		const titleText = $(this).text();
+		$.ajax({
+			url: PATH + "/equi/rentalPossibleEquipment.do",
+			method:"post",
+			success:(res)=>{
+				$("#change-List-title").html(titleText);
+				$(".change-List-contents").html(res);
+				console.log(res);
+			},
+			error:(err)=>{
+				console.log(err);
+			}
+		});
+	});
+	
+	//사용중인장비 전체조회
+	$("#list-btn4").click(function(){
+		const titleText = $(this).text();
+		$.ajax({
+			url: PATH + "/equi/usingEquipment.do",
+			method:"post",
+			success:(res)=>{
+				$("#change-List-title").html(titleText);
+				$(".change-List-contents").html(res);
+				console.log(res);
+			},
+			error:(err)=>{
+				console.log(err);
+			}
+		});
+	});
+});

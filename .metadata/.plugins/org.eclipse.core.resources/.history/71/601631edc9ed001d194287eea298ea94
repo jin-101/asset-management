@@ -1,0 +1,57 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import dbutil.Util;
+import vo.EquiVO;
+
+public class EquipmentDAO {
+	private Connection conn;
+	private Statement st;
+	private PreparedStatement pst; // ?지원
+	private ResultSet rs;
+	private int resultCount;
+
+	//대여가능장비 전체조회
+	public List<EquiVO> eqSelectAll() {
+		String sql = """
+					select *
+					from equipments
+				""";
+		List<EquiVO> list = new ArrayList<>();
+		conn = Util.getConnection();
+		try {
+			st = conn.createStatement();
+			rs = st.executeQuery(sql);
+			while(rs.next()) {
+				EquiVO emp = makeEqui(rs);
+				list.add(emp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Util.dbDisconnect(rs, st, conn);
+		}
+		return list;
+	}
+	
+	// 장비 필드 생성
+	private EquiVO makeEqui(ResultSet rs) throws SQLException {
+		EquiVO equi = new EquiVO();
+		equi.setEquipment_id(rs.getInt("equipment_id"));
+		equi.setEquipmentstype_TYPE_ID(rs.getString("equipmentstype_TYPE_ID"));
+		equi.setEquipmentscompany_CO_ID(rs.getString("equipmentscompany_CO_ID"));
+		equi.setMODEL(rs.getString("MODEL"));
+		equi.setSERIAL_NO(rs.getString("SERIAL_NO"));
+		equi.setPURCHASE_DATE(rs.getDate("PURCHASE_DATE"));
+		equi.setPRICE(rs.getInt("PRICE"));
+		return equi;
+	}
+		
+	
+}

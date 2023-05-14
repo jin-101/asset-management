@@ -1,0 +1,136 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="path" value="${pageContext.request.contextPath}"></c:set>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<jsp:include page="/common/common.jsp"></jsp:include>
+</head>
+<style>
+	header {
+		border:1px solid red;
+	}
+	main{
+		border:1px solid blue;
+	}
+	.container{
+		width:80%;
+	}
+	.container-btn{
+		hegiht: 3rem;
+		display: flex;
+		margin:1rem 0;
+	}
+	.content{
+		width:50%;
+	}
+	.content-logout-btn {
+		display:flex;
+		justify-content: flex-end;
+	}
+	.toggle-container{
+		display:flex;
+	}
+	.toggle{
+		width: 40%;
+		hegiht:3rem;
+		position:relative;
+	}
+	.toggle-Title{
+		border-radius: 6px 6px 0 0;
+		background-color: #669900;
+ 		color: white;
+		height: 100%;
+	    text-align: center;
+	}
+	.toggle-list{
+		width:100%;
+	}
+	.toggle-list.hidden{
+		display:none;
+		position:absolute;
+		z-index:2;
+	}
+	.toggle:hover .toggle-list{
+		display:block;
+	}
+</style>
+<body>
+<header>
+	<div class="container">
+		<div class="container-btn">
+			<div class="content content-back-btn">
+				<button class="btn btn-primary" onclick="location.href='${path}/login/menu.do'">뒤로가기</button>
+			</div>
+			<div class="content content-logout-btn">
+				<button class="btn btn-primary" onclick="">로그아웃</button>
+			</div>
+		</div>
+		<div class="toggle-container">
+			<div class="toggle rentPossible-eq">
+				<div id="toggle-Title">대여가능조회</div>
+				<div class="toggle-list hidden">
+	        		<div class="list-item">
+	        			<button class="list-btn" type="button">대여가능장비 전체조회</button>
+	        		</div>
+	        		<div class="list-item">
+	        			<button class="list-btn" type="button">유형별 대여가능 장비조회</button>
+ 	       			</div>
+ 	       			<div class="list-item">
+	        			<button class="list-btn" type="button">모델별 대여가능 장비조회</button>
+ 	       			</div>
+        		 </div>
+			</div>
+			<div class="toggle using-eq">
+				<div id="toggle-Title">사용장비조회</div>
+				<div class="toggle-list hidden">
+	        		<div class="list-item">
+	        			<button class="list-btn" type="button">사용중인장비 전체조회</button>
+	        		</div>
+	        		<div class="list-item">
+	        			<button class="list-btn" type="button">사용자별 사용중인 장비조회</button>
+ 	       			</div>
+ 	       			<div class="list-item">
+	        			<button class="list-btn" type="button">장비ID별 현재 사용자 조회</button>
+ 	       			</div>
+        		 </div>
+			</div>
+		</div>
+	</div>
+</header>
+<main>
+    <div class="container">
+    		<table class="table table-hover" border="1">
+            <thead>
+                <tr class="list">
+                	<th class="col0">순번</th>
+                    <th class="col1">장비 타입 번호</th>
+                    <th class="col2">장비 제조 회사번호</th>
+                    <th class="col3">모델명</th>
+                    <th class="col4">시리얼번호</th>
+                    <th class="col5">구매일</th>
+                    <th class="col6">가격</th>
+                </tr>
+            </thead>
+            <tbody>
+            	<c:forEach items="${eqAll}" var="equipment" varStatus="status">
+                 <tr class="items">
+                 	<th class="col0">${equipment.equipment_id}</th>
+                     <td class="col1">${equipment.equipmentstype_TYPE_ID}</td>
+                     <td class="col2">${equipment.equipmentscompany_CO_ID}</td>
+                     <td class="col3">${equipment.MODEL}</td>
+                     <td class="col4">${equipment.SERIAL_NO}</td>
+                     <td class="col5">${equipment.PURCHASE_DATE}</td>
+                     <td class="col6">${equipment.PRICE}</td>
+                  </tr>
+                 </c:forEach>
+             </tbody>
+         </table>
+     </div>
+</main> 
+</body>
+</html>

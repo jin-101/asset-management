@@ -1,0 +1,6 @@
+$(function(){
+	$(".equipMenuBtn").click(function(){
+		
+	});
+	
+})

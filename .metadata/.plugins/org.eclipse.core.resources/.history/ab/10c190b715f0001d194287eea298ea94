@@ -1,0 +1,59 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import dbutil.Util;
+import vo.EmpVO;
+
+public class EmpDAO {
+	private Connection conn;
+	private Statement st;
+	private PreparedStatement pst; // ?지원
+	private ResultSet rs;
+	private int resultCount; 
+	
+	//직원 전체 조회
+	public List<EmpVO> empSelectAll() {
+		String sql = """
+					select *
+					from employees;
+				""";
+		List<EmpVO> emplist = new ArrayList<>();
+		conn = Util.getConnection();
+		try {
+			st = conn.createStatement();
+			rs = st.executeQuery(sql);
+			while(rs.next()) {
+				EmpVO emp = makeEmp(rs);
+				emplist.add(emp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Util.dbDisconnect(rs, st, conn);
+		}
+		return emplist;
+	}
+	
+	// 직원 필드 생성
+	private EmpVO makeEmp(ResultSet rs) throws SQLException {
+		EmpVO emp = new EmpVO();
+		emp.setEmployee_id(rs.getInt("Employee_id"));
+		emp.setFirst_name(rs.getString("First_name"));
+		emp.setLast_name(rs.getString("Last_name"));
+		emp.setEmail(rs.getString("Email"));
+		emp.setPhone_number(rs.getString("Phone_number"));
+		emp.setHire_date(rs.getDate("Hire_date"));
+		emp.setJobs_JOB_ID(rs.getString("jobs_JOB_ID"));
+		emp.setSalary(rs.getInt("Salary"));
+		emp.setSubpart_PART_NO(rs.getInt("subpart_PART_NO"));
+		emp.setPosition_POSITION_ID(rs.getInt("position_POSITION_ID"));
+		return emp;
+	}
+}

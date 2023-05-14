@@ -1,0 +1,29 @@
+1683558532594	Delete element
+1683562032073	Delete element
+1683563304265	Rename resource 'home.png'
+1683567739307	Move 'equiList.jsp' to 'equi'
+1683568263895	Delete element
+1683568752045	Rename type 'AssetDAO'
+1683568764034	Rename type 'AssetService'
+1683646893044	Rename type 'rentalPossibleEquipmentListController'
+1683647130381	Rename resource 'usingEquipment.jsp'
+1683650672666	Delete element
+1683650868184	Rename resource 'selectorSearchEquipment.jsp'
+1683819605358	Rename type 'allEquipmentModelController'
+1683819613759	Rename type 'allEquipmentTypeController'
+1683819619649	Rename type 'equipmentRentalController'
+1683819625899	Rename type 'equipmentReturnController'
+1683819634642	Rename type 'rentalPossibleEquipmentController'
+1683819642444	Rename type 'searchEquipmentByModelController'
+1683819649472	Rename type 'searchEquipmentByTypeController'
+1683819655674	Rename type 'usingEquipmentController'
+1683820435690	Rename type 'Subpart'
+1683822703630	Rename type 'RentalPossibleEquipmentController'
+1683822831422	Rename type 'rentalPossibleEquipmentController'
+1683823076978	Delete element
+1683823352032	Delete element
+1683823416866	Delete element
+1683823454152	Delete element
+1683823526614	Delete element
+1683823559551	Delete element
+1683831450613	Delete element

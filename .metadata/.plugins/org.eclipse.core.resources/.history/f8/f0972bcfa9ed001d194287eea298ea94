@@ -1,0 +1,28 @@
+
+@import 'spinner.css';
+
+:root{
+	/* colors 변수선언  */
+	--white: #e9e9e9;
+  	--blue: #0367a6;
+	
+	/* button radius */
+	--button-radius : 0.7rem;
+	
+	/* sizes */
+	--min-width:800px;
+	--min-height:500px;
+	
+	--inputOriginBorderSize:1.6px;
+	--inputOrigiPaddingSize:2px;
+	
+	font-size:16px;
+}
+html{
+  margin: 0;
+  padding: 0;
+}
+body{
+	margin:0;
+}
+

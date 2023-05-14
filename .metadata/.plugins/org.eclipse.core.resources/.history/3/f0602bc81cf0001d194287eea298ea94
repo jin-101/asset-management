@@ -1,0 +1,15 @@
+package controller;
+
+import java.util.Map;
+
+import service.EmpService;
+
+public class AllEmpAndDeptController implements CommonControllerInterface {
+
+	@Override
+	public String execute(Map<String, Object> data) throws Exception {
+		EmpService service = new EmpService();
+		return null;
+	}
+
+}
