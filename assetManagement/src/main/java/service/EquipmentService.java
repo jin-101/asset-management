@@ -54,6 +54,11 @@ public class EquipmentService {
 		return eqDao.rentInfoDelete(eqId);
 	}
 	
+	//장비등록
+	public int eqInsert(EquiVO eq) {
+		return eqDao.eqInsert(eq);
+	}
+	
 	//장비정보수정(Update)
 	public int eqUpdate(EquiVO eq) {
 		return eqDao.eqUpdate(eq);

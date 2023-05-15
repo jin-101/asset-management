@@ -56,10 +56,10 @@
 				<div class="toggle-Title">장비내역</div>
 				<div class="toggle-list hidden">
 	        		<div class="list-item">
-	        			<button id="list-btn7" class="list-all list-btn" type="button">신규장비등록</button>
+	        			<button id="list-btn7" class="list-btn" type="button">신규장비등록</button>
 	        		</div>
 	        		<div class="list-item">
-	        			<button id="list-btn8" class="list-search list-btn" type="button">기존장비삭제</button>
+	        			<button id="list-btn8" class="list-btn" type="button">기존장비삭제</button>
  	       			</div>
         		 </div>
 			</div>

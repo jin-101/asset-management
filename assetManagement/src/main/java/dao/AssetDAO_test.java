@@ -305,29 +305,29 @@ public class AssetDAO_test {
 	}
 	
 //1-4-2 장비정보수정(Update)
-	public int eqUpdate(EquiVO eq) {
-		String sql = """
-				update equipments
-				set MODEL = ?, SERIAL_NO = ?, PURCHASE_DATE = ?, PRICE= ?
-				where equipment_ID = ?
-				""";
-		conn = Util.getConnection();
-		try {
-			pst = conn.prepareStatement(sql);
-			pst.setString(1, eq.getMODEL());
-			pst.setString(2, eq.getSERIAL_NO());
-			pst.setDate(3, eq.getPURCHASE_DATE());
-			pst.setInt(4,eq.getPRICE());
-			pst.setInt(5,eq.getEquipment_id());
-			resultCount = pst.executeUpdate(); //DML문장 실행한다.
-		} catch (SQLException e) {
-			resultCount = -1;
-			e.printStackTrace();
-		} finally {
-			Util.dbDisconnect(null, pst, conn);
-		}
-		return resultCount;
-	}
+//	public int eqUpdate(EquiVO eq) {
+//		String sql = """
+//				update equipments
+//				set MODEL = ?, SERIAL_NO = ?, PURCHASE_DATE = ?, PRICE= ?
+//				where equipment_ID = ?
+//				""";
+//		conn = Util.getConnection();
+//		try {
+//			pst = conn.prepareStatement(sql);
+//			pst.setString(1, eq.getMODEL());
+//			pst.setString(2, eq.getSERIAL_NO());
+//			pst.setDate(3, eq.getPURCHASE_DATE());
+//			pst.setInt(4,eq.getPRICE());
+//			pst.setInt(5,eq.getEquipment_id());
+//			resultCount = pst.executeUpdate(); //DML문장 실행한다.
+//		} catch (SQLException e) {
+//			resultCount = -1;
+//			e.printStackTrace();
+//		} finally {
+//			Util.dbDisconnect(null, pst, conn);
+//		}
+//		return resultCount;
+//	}
 	
 //1-4-2-sub 장비번호로 직원정보조회
 	public EquiVO selectByEqId(int eqId) {

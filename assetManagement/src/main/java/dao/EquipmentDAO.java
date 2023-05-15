@@ -283,6 +283,31 @@ public class EquipmentDAO {
 		return resultCount;
 	}
 	
+	//장비등록
+	public int eqInsert(EquiVO eq) {
+		String sql = """
+				insert into equipments (equipmentstype_TYPE_ID, equipmentscompany_CO_ID, MODEL, SERIAL_NO, PURCHASE_DATE, PRICE)
+				values (?, ?, ?, ?, ?, ?)
+				""";
+		conn = Util.getConnection();
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, eq.getEquiType().getTypeId());
+			pst.setString(2, eq.getEquiCompany().getCoId());
+			pst.setString(3, eq.getModel());
+			pst.setString(4, eq.getSerialNo());
+			pst.setDate(5, eq.getPurchaseDate());
+			pst.setInt(6,eq.getPrice());
+			resultCount = pst.executeUpdate(); //DML문장 실행한다. 
+		} catch (SQLException e) {
+			resultCount = -1;
+			e.printStackTrace();
+		} finally {
+			Util.dbDisconnect(null, pst, conn);
+		}
+		return resultCount;
+	}
+	
 	//장비정보수정(Update)
 	public int eqUpdate(EquiVO eq) {
 		String sql = """

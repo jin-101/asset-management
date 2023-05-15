@@ -11,9 +11,17 @@
 <%-- <link rel="stylesheet" href="${path}/css/empDetail.css"> --%>
 <script defer src="${path}/js/equiDetail.js"></script>
 </head>
+
+<style>
+	header{
+		display:flex;
+	}
+</style>
+
 <body>
 	<header>
-		<div>직원상세보기</div>
+		<div>장비상세보기</div>
+		<button id="go-home">홈으로</button>
 	</header>
 	<main>
 		<form id="detail-form" class="row g-3">

@@ -1,0 +1,30 @@
+package controller;
+
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import service.EquiCompanyService;
+import service.EquiTypeService;
+
+public class EquipmentInsertController implements CommonControllerInterface {
+
+	@Override
+	public String execute(Map<String, Object> data) throws Exception {
+		String method = (String)data.get("method");
+		HttpServletRequest request = (HttpServletRequest) data.get("request");
+		String page = "";
+		
+		if(method.equals("GET")) {
+			EquiTypeService typeService = new EquiTypeService();
+			EquiCompanyService companyService = new EquiCompanyService();
+			request.setAttribute("equiTypeList",typeService.EquiTypeSelectAll());
+			request.setAttribute("equiCompanyList", companyService.EquiCompanySelectAll());
+			page = "equiInsert.jsp";
+		}else {
+			
+		}
+		return null; //resultCount > 0 ? "입력성공" : "입력실패";
+	}
+
+}

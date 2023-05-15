@@ -73,9 +73,16 @@ public class FrontController extends HttpServlet {
 			case "/equi/equipmentReturn.do":{
 				controller = new EquipmentReturnController(); break;
 			}
+			case "/equi/equipmentInsert.do":{
+				controller = new EquipmentInsertController(); break;
+			}
 			case "/equi/equipmentDetail.do":{
 				controller = new EquipmentDetailController(); break;
 			}
+			case "/equi/equipmentDelete.do":{
+				controller = new EquipmentDeleteController(); break;
+			}
+			
 			
 			case "/emp/empList.do":{
 				controller = new EmpListController(); break;

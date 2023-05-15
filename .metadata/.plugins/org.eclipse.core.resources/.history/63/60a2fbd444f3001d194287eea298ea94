@@ -1,0 +1,23 @@
+$(function() {
+	 const PATH = getContextPath();
+	 $("#insert-btn").click(function() {
+		const arr = $("#insert-form").serializeArray();
+		const obj = {};
+		$.each(arr, (index, item)=>{
+			obj[item.name] = item.value;
+		});
+		$.ajax({
+			url : PATH + "/equi/equipmentInsert.do",
+			method:"POST",
+			data: JSON.stringify(obj),
+			contentType:"application/json",
+			success:(res)=>{
+				alert(res);
+				location.href = "${path}/emp/empList.do";
+			},
+			error:(err)=>{
+				console.error(err);
+			}
+		});
+	});
+	});

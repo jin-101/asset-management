@@ -5,7 +5,12 @@ $(function(){
 		'list-btn1' : "rentalPossibleEquipment.do",
 		'list-btn2' : "allEquipmentType.do",
 		'list-btn3' : "allEquipmentModel.do",
-		'list-btn4' : "usingEquipment.do"
+		'list-btn4' : "usingEquipment.do",
+		'list-btn5':"",
+		'list-btn6':"",
+		'list-btn7' : "equipmentInsert.do",
+		'list-btn8':"",
+		'update-btnPath': "equipmentDetail.do"
 	};
 	
 	$(".list-all").click(function(){
@@ -59,9 +64,15 @@ $(function(){
 		});
 	});
 	
+	//장비추가 페이지로 이동
+	$("#list-btn7").click(function(){
+		console.log(apiPath[$(this).attr('id')])
+		location.href = PATH+"/equi/"+ apiPath[$(this).attr('id')]
+	});
 	
-	// 장비내역수정으로 이동
+	
+	// 장비내역수정 페이지으로 이동
 	$(".eq-items").click(function(){
-		location.href = PATH+"/equi/equipmentDetail.do?eqid=" + $(this).attr("data-id");
+		location.href = PATH+"/equi/"+apiPath['update-btnPath']+"?eqid=" + $(this).attr("data-id");
 	});
 });
