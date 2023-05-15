@@ -12,7 +12,11 @@ public class EquipmentService {
 	public List<EquiVO> eqSelectAll() {
 		return eqDao.eqSelectAll();
 	}
-	
+	//id로 해당 장비 내역조회
+	public EquiVO eqSelectById(int eqid) {
+		return eqDao.eqSelectById(eqid);
+	}
+		
 	//대여가능장비 조회
 	public List<EquiVO> rentPossible() {
 		return eqDao.rentPossible();
@@ -48,5 +52,10 @@ public class EquipmentService {
 	//rent테이블에 정보 삭제
 	public int rentInfoDelete(int eqId) {
 		return eqDao.rentInfoDelete(eqId);
+	}
+	
+	//장비정보수정(Update)
+	public int eqUpdate(EquiVO eq) {
+		return eqDao.eqUpdate(eq);
 	}
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dbutil.Util;
+import vo.EquiTypeVO;
 
 public class EquiTypeDAO {
 	private Connection conn;
@@ -18,9 +19,7 @@ public class EquiTypeDAO {
 	
 	public List<String> allEqTypeList(){
 		List<String> typeList = new ArrayList<>();
-		String sql = """
-				select * from equipmentstype
-				""";
+		String sql = "select * from equipmentstype";
 		conn = Util.getConnection();
 		try {
 			pst = conn.prepareStatement(sql);
@@ -34,5 +33,26 @@ public class EquiTypeDAO {
 			Util.dbDisconnect(rs, st, conn);
 		}
 		return typeList;
+	}
+	
+	public List<EquiTypeVO> EquiTypeSelectAll(){
+		String sql = "select * from equipmentstype";
+		List<EquiTypeVO> equiTypeList = new ArrayList<>();
+		conn = Util.getConnection();
+		try {
+			st = conn.createStatement();
+			rs = st.executeQuery(sql);
+			while(rs.next()) {
+				EquiTypeVO equiType = new EquiTypeVO();
+				equiType.setTypeId(rs.getString("type_id"));
+				equiType.setTypeName(rs.getString("type_name"));
+				equiTypeList.add(equiType);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}  finally {
+			Util.dbDisconnect(rs, st, conn);
+		}
+		return equiTypeList;
 	}
 }

@@ -1,0 +1,85 @@
+package controller;
+
+import java.io.UnsupportedEncodingException;
+import java.sql.Date;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import dbutil.DateUtil;
+import service.EquiCompanyService;
+import service.EquiTypeService;
+import service.EquipmentService;
+import vo.EquiVO;
+
+public class EquipmentDetailController implements CommonControllerInterface {
+
+	@Override
+	public String execute(Map<String, Object> data) throws Exception {
+		String method = (String)data.get("method");
+		HttpServletRequest request = (HttpServletRequest) data.get("request");
+		String page = "";
+		
+		if(method.equals("GET")) {
+			int eqid= Integer.parseInt(request.getParameter("eqid"));
+			EquipmentService service = new EquipmentService();
+			EquiVO eq = service.eqSelectById(eqid);
+			request.setAttribute("equipment", eq);
+
+			EquiTypeService typeService = new EquiTypeService();
+			EquiCompanyService companyService = new EquiCompanyService();
+			request.setAttribute("equiTypeList",typeService.EquiTypeSelectAll());
+			request.setAttribute("equiCompanyList", companyService.EquiCompanySelectAll());
+			page = "equiDetail.jsp";
+		}else {
+			System.out.println(request);
+			EquiVO eq = makeEquip(request);
+//			EmpService service = new EmpService();
+//			String message =service.empUpdate(emp);
+//			System.out.println("EmpDetailController :"+message);
+//			
+			page = "responsbody:ok";
+			//page = "redirect:emplist.do";
+			
+		}
+		return page;
+	}
+	
+	private EquiVO makeEquip(HttpServletRequest request) throws UnsupportedEncodingException {
+		//filter에서 수행하고 왔음
+		System.out.println("/????");
+		request.setCharacterEncoding("utf-8");
+		int eqId=Integer.parseInt(request.getParameter("equipmentId"));
+		String eqTypeId=request.getParameter("equiType");
+		String eqCompanyId=request.getParameter("equiCom");
+		String model=request.getParameter("model");
+		String serialNo=request.getParameter("serialNo");
+		Date purchaseDate=DateUtil.convertToDate(request.getParameter("purchaseDate"));
+		String price=request.getParameter("price");
+		System.out.println(eqId);
+		System.out.println(eqTypeId);
+		System.out.println(eqCompanyId);
+		System.out.println(model);
+		System.out.println(serialNo);
+		System.out.println(purchaseDate);
+		System.out.println(price);
+		
+		EquiVO eq = new EquiVO();
+//		emp.setCommission_pct(comm);
+//		emp.setDepartment_id(deptid);
+//		emp.setEmail(email);
+//		emp.setEmployee_id(empId);
+//		emp.setFirst_name(fname);
+//		emp.setHire_date(hdate);
+//		emp.setJob_id(job_id);
+//		emp.setLast_name(lname);
+//		emp.setManager_id(mid);
+//		emp.setPhone_number(phone);
+//		emp.setSalary(salary);
+//		
+//		System.out.print(emp);
+		return eq;
+	}
+
+
+}

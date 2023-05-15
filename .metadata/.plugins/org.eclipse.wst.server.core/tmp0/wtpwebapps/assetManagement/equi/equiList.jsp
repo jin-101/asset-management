@@ -9,8 +9,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <jsp:include page="/common/common.jsp"></jsp:include>
-<link rel="stylesheet" href="${path}/css/empList.css">
-<script defer src="${path}/js/empList.js" ></script>
+<link rel="stylesheet" href="${path}/css/equiList.css">
+<script defer src="${path}/js/equiList.js" ></script>
 </head>
 <body>
 <header>
@@ -84,7 +84,7 @@
             </thead>
             <tbody>
             	<c:forEach items="${eqAll}" var="equipment" varStatus="status">
-                 <tr class="items">
+                 <tr class="eq-items" data-id="${equipment.equipmentId}">
                  	<th class="col0">${equipment.equipmentId}</th>
                      <td class="col1">${equipment.equiType.getTypeId()}</td>
                      <td class="col2">${equipment.equiCompany.getCoId()}</td>

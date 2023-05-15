@@ -59,4 +59,10 @@ $(function(){
 		});
 	});
 	
+	
+	// 장비내역수정으로 이동
+	$(".eq-items").on("click",function(){
+		console.log(this ,$(this).attr("data-id"))
+		//location.href="empDetail.do?empid=" + $(this).attr("data-id");
+	});
 });

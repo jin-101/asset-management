@@ -1,0 +1,19 @@
+package controller;
+
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+public class EquipmentDetailController implements CommonControllerInterface {
+
+	@Override
+	public String execute(Map<String, Object> data) throws Exception {
+		String method = (String)data.get("method");
+		HttpServletRequest request = (HttpServletRequest) data.get("request");
+		String page = "";
+		
+		
+		return page;
+	}
+
+}

@@ -1,0 +1,77 @@
+package controller;
+
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import service.EquiCompanyService;
+import service.EquiTypeService;
+import service.EquipmentService;
+import vo.EquiVO;
+
+public class EquipmentDetailController implements CommonControllerInterface {
+
+	@Override
+	public String execute(Map<String, Object> data) throws Exception {
+		String method = (String)data.get("method");
+		HttpServletRequest request = (HttpServletRequest) data.get("request");
+		String page = "";
+		
+		if(method.equals("GET")) {
+			int eqid= Integer.parseInt(request.getParameter("eqid"));
+			EquipmentService service = new EquipmentService();
+			EquiVO eq = service.eqSelectById(eqid);
+			request.setAttribute("equipment", eq);
+
+			EquiTypeService typeService = new EquiTypeService();
+			EquiCompanyService companyService = new EquiCompanyService();
+			request.setAttribute("equiTypeList",typeService.EquiTypeSelectAll());
+			request.setAttribute("equiCompanyList", companyService.EquiCompanySelectAll());
+
+			page = "equiDetail.jsp";
+		}else {
+//			EquiVO eq = makeEmp(request);
+//			EmpService service = new EmpService();
+//			String message =service.empUpdate(emp);
+//			System.out.println("EmpDetailController :"+message);
+//			
+			page = "redirect:emplist.do";
+			
+		}
+		return page;
+	}
+	
+//	private EquiVO makeEquip(HttpServletRequest request) throws UnsupportedEncodingException {
+//		//filter에서 수행하고 왔음
+//		//request.setCharacterEncoding("utf-8");
+//		int eqId=Integer.parseInt(request.getParameter("EQUIPMENT_ID"));
+//		String fname=request.getParameter("FIRST_NAME");
+//		String lname=request.getParameter("LAST_NAME");
+//		String email=request.getParameter("EMAIL");
+//		String phone=request.getParameter("PHONE_NUMBER");
+//		Date hdate=DateUtil.convertToDate(request.getParameter("HIRE_DATE"));
+//		String job_id=request.getParameter("JOB_ID");
+//		double salary= Double.parseDouble(request.getParameter("SALARY"));
+//		double comm= Double.parseDouble(request.getParameter("COMMISSION_PCT"));
+//		int mid=Integer.parseInt(request.getParameter("MANAGER_ID"));
+//		int deptid=Integer.parseInt(request.getParameter("DEPARTMENT_ID"));
+//		
+//		EmpVO emp = new EmpVO();
+//		emp.setCommission_pct(comm);
+//		emp.setDepartment_id(deptid);
+//		emp.setEmail(email);
+//		emp.setEmployee_id(empId);
+//		emp.setFirst_name(fname);
+//		emp.setHire_date(hdate);
+//		emp.setJob_id(job_id);
+//		emp.setLast_name(lname);
+//		emp.setManager_id(mid);
+//		emp.setPhone_number(phone);
+//		emp.setSalary(salary);
+//		
+//		System.out.print(emp);
+//		return emp;
+//	}
+
+
+}

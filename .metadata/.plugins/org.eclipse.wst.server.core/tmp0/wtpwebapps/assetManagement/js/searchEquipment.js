@@ -21,8 +21,9 @@ $(function() {
 					$.each(userArr, (index, el) => {
 						const dept = el.subpart.dept.departmentName;
 						$("#rental-user").append("<option>" + el.firstName + " " + el.lastName + " " + (dept ? "(" + dept + ")" : '') + "</option>");
+						if(userArr.length-1 === index) $("#my-spinner").hide();
 					});
-					$("#my-spinner").hide();
+					if(userArr.length===0) $("#my-spinner").hide();
 				},
 				error: (err) => {
 					console.log(err);
@@ -41,7 +42,6 @@ $(function() {
 			const returnData = {
 				eqId: $(this).attr("data-equipmentid")
 			};
-			console.log(returnData)
 			$.ajax({
 				url: PATH + "/equi/" + ajaxPath,
 				method: ajaxMethod,
@@ -104,5 +104,11 @@ $(function() {
 	$(".cancel-btn").click(function() {
 		$(".modal").css("display", "none");
 		$("html").css("overflow", "auto");
+	});
+	
+	
+	// 장비내역수정으로 이동
+	$(".eq-items").click(function(){
+		location.href = PATH+"/equi/equipmentDetail.do?eqid=" + $(this).attr("data-id");
 	});
 })

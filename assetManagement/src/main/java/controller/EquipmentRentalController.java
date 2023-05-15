@@ -15,7 +15,7 @@ public class EquipmentRentalController implements CommonControllerInterface {
 		int eqId = Integer.parseInt(request.getParameter("eqId"));
 		int empId = Integer.parseInt(request.getParameter("empId"));
 		int resultCount = service.eqRental(eqId, empId);
-		return "responseBody:"+ resultCount;
+		return "responseBody:"+ resultCount; // resultCount > 0 ? "대여성공" : "대여실패";
 	}
 
 }

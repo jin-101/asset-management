@@ -91,3 +91,6 @@ th, td {
 #selector-name{
 	margin-right: 2rem;
 }
+.eq-items{
+	cursor : pointer;
+}

@@ -8,7 +8,7 @@
 	top:0;
 	right:0;
 	background:rgba(0,0,0,0.6);
-	z-index:999;
+	z-index:998;
 }
 .modal-content{
 	position:absolute;
@@ -19,7 +19,7 @@
 	height:50vh;
 	border-radius:20px;
 	background:white;
-	z-index:1000;
+	z-index:999;
 	display:flex;
 	justify-content: center;
 	align-items: center;

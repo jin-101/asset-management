@@ -14,12 +14,11 @@ public class EquipmentReturnController implements CommonControllerInterface {
 		EquipmentService service = new EquipmentService();
 		int eqId = Integer.parseInt(request.getParameter("eqId"));
 		int returnCount = service.eqRetrun(eqId);
-		int infoRemoveCount = -1;
 		if(returnCount==1) {
-			infoRemoveCount = service.rentInfoDelete(eqId);
+			returnCount = service.rentInfoDelete(eqId);
 		}
 		
-		return "responseBody:"+ infoRemoveCount;
+		return "responseBody:"+ returnCount; // returnCount > 0 ? "반납완료" : "반납실패";
 	}
 
 }

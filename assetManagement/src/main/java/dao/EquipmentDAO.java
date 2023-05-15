@@ -42,6 +42,24 @@ public class EquipmentDAO {
 		}
 		return list;
 	}
+	//id로 해당 장비 내역조회
+	public EquiVO eqSelectById(int eqid) {
+		EquiVO eq = null;
+		String sql = "select * from equipments where EQUIPMENT_ID = " + eqid;
+		conn = Util.getConnection();
+		try {
+			st = conn.createStatement();
+			rs = st.executeQuery(sql);
+			while(rs.next()) {
+				eq = makeEqui(rs);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Util.dbDisconnect(rs, st, conn);
+		}
+		return eq;
+	}
 	
 	//대여가능장비 전체조회
 	public List<EquiVO> rentPossible() {
@@ -266,29 +284,36 @@ public class EquipmentDAO {
 	}
 	
 	//장비정보수정(Update)
-//	public int eqUpdate(EquiVO eq) {
-//		String sql = """
-//				update equipments
-//				set MODEL = ?, SERIAL_NO = ?, PURCHASE_DATE = ?, PRICE= ?
-//				where equipment_ID = ?
-//				""";
-//		conn = Util.getConnection();
-//		try {
-//			pst = conn.prepareStatement(sql);
-//			pst.setString(1, eq.getMODEL());
-//			pst.setString(2, eq.getSERIAL_NO());
-//			pst.setDate(3, eq.getPURCHASE_DATE());
-//			pst.setInt(4,eq.getPRICE());
-//			pst.setInt(5,eq.getEquipment_id());
-//			resultCount = pst.executeUpdate(); //DML문장 실행한다.
-//		} catch (SQLException e) {
-//			resultCount = -1;
-//			e.printStackTrace();
-//		} finally {
-//			Util.dbDisconnect(null, pst, conn);
-//		}
-//		return resultCount;
-//	}
+	public int eqUpdate(EquiVO eq) {
+		String sql = """
+				update equipments
+				set equipmentstype_TYPE_ID = ?,
+					equipmentscompany_CO_ID =?, 
+					MODEL = ?, 
+					SERIAL_NO = ?, 
+					PURCHASE_DATE = ?, 
+					PRICE= ?
+				where equipment_ID = ?
+				""";
+		conn = Util.getConnection();
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setString(1,eq.getEquiType().getTypeId());
+			pst.setString(2,eq.getEquiCompany().getCoId());
+			pst.setString(3, eq.getModel());
+			pst.setString(4, eq.getSerialNo());
+			pst.setDate(5, eq.getPurchaseDate());
+			pst.setInt(6,eq.getPrice());
+			pst.setInt(7,eq.getEquipmentId());
+			resultCount = pst.executeUpdate(); //DML문장 실행한다.
+		} catch (SQLException e) {
+			resultCount = -1;
+			e.printStackTrace();
+		} finally {
+			Util.dbDisconnect(null, pst, conn);
+		}
+		return resultCount;
+	}
 	
 	// 장비 필드 생성
 	private EquiVO makeEqui(ResultSet rs) throws SQLException {

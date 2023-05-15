@@ -7,7 +7,7 @@
 	opacity: .6; 
 	background: silver; 
 	position: absolute; 
-	z-index: 1001; 
+	z-index: 1000; 
 }
 #my-spinner div { 
 	width: 100%; 
