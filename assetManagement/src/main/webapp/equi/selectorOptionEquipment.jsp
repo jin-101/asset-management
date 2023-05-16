@@ -9,6 +9,7 @@
 <meta charset="UTF-8">
 <title>특정 옵션 선택</title>
 <link rel="stylesheet" href="${path}/css/selectorOptionEquipment.css">
+<%-- <script defer src="${path}/js/equiList.js"></script> --%>
 <script defer src="${path}/js/selectorOptionEquipment.js"></script>
 </head>
 <body>

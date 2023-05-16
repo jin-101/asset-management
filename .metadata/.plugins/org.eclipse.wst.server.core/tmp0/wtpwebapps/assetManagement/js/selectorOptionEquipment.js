@@ -1,6 +1,4 @@
 $(function(){
-	const PATH = getContextPath();
-	const btnTypeInfo = getBtnTypeInformation();
 	const apiPath = {
 			'model' : "searchEquipmentByModel.do",
 			'type_name': "searchEquipmentByType.do"
@@ -23,7 +21,7 @@ $(function(){
 			},
 			success:(res)=>{
 				$("#selector-search-content").html(res);
-				$(".rentalType-btn").html(btnText).addClass(btnClass).attr("data-btnType",btnType);
+				$(".changeType-btn").html(btnText).addClass(btnClass).attr("data-btnType",btnType);
 				$("#my-spinner").hide();
 			},
 			error:(err)=>{

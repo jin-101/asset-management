@@ -298,7 +298,7 @@ public class EquipmentDAO {
 			pst.setString(4, eq.getSerialNo());
 			pst.setDate(5, eq.getPurchaseDate());
 			pst.setInt(6,eq.getPrice());
-			resultCount = pst.executeUpdate(); //DML문장 실행한다. 
+			resultCount = pst.executeUpdate(); 
 		} catch (SQLException e) {
 			resultCount = -1;
 			e.printStackTrace();
@@ -330,10 +330,29 @@ public class EquipmentDAO {
 			pst.setDate(5, eq.getPurchaseDate());
 			pst.setInt(6,eq.getPrice());
 			pst.setInt(7,eq.getEquipmentId());
-			resultCount = pst.executeUpdate(); //DML문장 실행한다.
+			resultCount = pst.executeUpdate();
 		} catch (SQLException e) {
 			resultCount = -1;
 			e.printStackTrace();
+		} finally {
+			Util.dbDisconnect(null, pst, conn);
+		}
+		return resultCount;
+	}
+	
+	//장비삭제
+	public int eqDelete(int eqId) {
+		String sql = """
+				delete from equipments
+				where equipment_id = ?
+				""";
+		conn = Util.getConnection();
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, eqId);
+			resultCount = pst.executeUpdate();
+		} catch (SQLException e) {
+			resultCount = -1;
 		} finally {
 			Util.dbDisconnect(null, pst, conn);
 		}

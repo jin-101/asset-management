@@ -1,0 +1,112 @@
+$(function(){
+	const PATH = getContextPath();
+	const btnTypeInfo = getBtnTypeInformation();
+	const buttonInfo = {
+		'list-btn1' : {path:"rentalPossibleEquipment.do", successF:listAllSuccess},
+		'list-btn2' : {path:"allEquipmentType.do", successF:listSearchSuccess},
+		'list-btn3' : {path:"allEquipmentModel.do", successF:listSearchSuccess},
+		'list-btn4' : {path:"usingEquipment.do", successF:listAllSuccess},
+		'list-btn5':"",
+		'list-btn6':"",
+		'list-btn7' : {path:"equipmentInsert.do", successF:""},
+		'list-btn8': {path:"rentalPossibleEquipment.do", successF:listAllSuccess}, //rentalPossibleEquipment.do
+		'update-btnPath': {path:"equipmentDetail.do"}
+	}
+	
+	$(".list-btn").click(function(){
+		const titleText = $(this).text();
+		$("#change-List-title").html(titleText);
+		const currentButtonInfo = buttonInfo[$(this).attr('id')];
+		$.ajax({
+			url: PATH + "/equi/" + currentButtonInfo.path,
+			method:"GET",
+			beforeSend : () => {
+				$("#my-spinner").show();
+			},
+			success: currentButtonInfo.successF.bind(this),
+			error:(err)=>{
+				console.log(err);
+				$("#my-spinner").hide();
+			}
+		});
+	})
+	/*$(".list-all").click(function(){
+		const titleText = $(this).text();
+		$("#change-List-title").html(titleText);
+		
+		$.ajax({
+			url: PATH + "/equi/" + apiPath[$(this).attr('id')],
+			method:"GET",
+			beforeSend : () => {
+				$("#my-spinner").show();
+			},
+			success: listAllSuccess.bind(this),
+			success:(res)=> {
+				const btnType = $(this).attr("data-btnType");
+				const {btnText, btnClass} = btnTypeInfo[btnType];
+				$("#change-List-contents").html(res);
+				$(".changeType-btn").html(btnText).addClass(btnClass).attr("data-btnType",btnType);
+				$("#my-spinner").hide();
+			},
+			error:(err)=>{
+				console.log(err);
+				$("#my-spinner").hide();
+			}
+		});
+	});
+	
+	$(".list-search").click(function(){
+		const titleText = $(this).text();
+		$("#change-List-title").html(titleText);
+		$.ajax({
+			url: PATH + "/equi/" + apiPath[$(this).attr('id')],
+			method:"GET",
+			beforeSend : () => {
+				$("#my-spinner").show();
+			},
+			success:(res)=>{
+				const btnType = $(this).attr("data-btnType");
+				const dataTitle = $(this).attr("data-selector-title");
+				const dataName = $(this).attr("data-name");
+				$("#change-List-contents").html(res);
+				$("#selector-name").html(dataTitle + " :");
+				$("#optionSelect").attr("name",dataName);
+				$(".search-btn").attr("data-btnType",btnType);
+				$("#my-spinner").hide();
+			},
+			error:(err)=>{
+				console.log(err);
+				$("#my-spinner").hide();
+			}
+		});
+	});*/
+	
+	//장비추가 페이지로 이동
+	/*$("#list-btn7").click(function(){
+		location.href = PATH+"/equi/"+ apiPath[$(this).attr('id')]
+	});*/
+	
+	// 장비내역수정 페이지으로 이동
+	$(".eq-items").click(function(){
+		location.href = PATH+"/equi/"+ buttonInfo.path['update-btnPath']+"?eqid=" + $(this).attr("data-id");
+	});
+	
+	function listAllSuccess(res){
+		const btnType = $(this).attr("data-btnType");
+		const {btnText, btnClass} = btnTypeInfo[btnType];
+		$("#change-List-contents").html(res);
+		$(".changeType-btn").html(btnText).addClass(btnClass).attr("data-btnType",btnType);
+		$("#my-spinner").hide();
+	}
+	
+	function listSearchSuccess(res){
+		const btnType = $(this).attr("data-btnType");
+		const dataTitle = $(this).attr("data-selector-title");
+		const dataName = $(this).attr("data-name");
+		$("#change-List-contents").html(res);
+		$("#selector-name").html(dataTitle + " :");
+		$("#optionSelect").attr("name",dataName);
+		$(".search-btn").attr("data-btnType",btnType);
+		$("#my-spinner").hide();
+	}
+});

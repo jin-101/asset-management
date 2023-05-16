@@ -27,9 +27,4 @@ $(function() {
 			}
 		});
 	});
-	
-	//홈으로 (전체대여장비 창으로 이동)
-	$("#go-home").click(function(){
-		location.href =  PATH + "/equi/equiList.do";
-	});
 });

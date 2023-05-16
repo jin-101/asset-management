@@ -1,0 +1,97 @@
+header {
+	position: fixed;
+	top: 0;
+	left:0;
+ 		width: 100vw;
+	background-color:beige;
+}
+main{
+	margin-top:128px;
+	width:100vw;
+}
+.container{
+	width:80%;
+}
+.container-btn{
+	height: 3rem;
+	display: flex;
+	margin:1rem 0;
+}
+.content{
+	width:50%;
+}
+.content-logout-btn {
+	display:flex;
+	justify-content: flex-end;
+}
+.toggle-container{
+	display:flex;
+	height: 3rem;
+}
+.toggle{
+	width: 30%;
+	position:relative;
+    margin-right : 1rem;
+}
+.toggle-Title{
+	border-radius: 6px 6px 0 0;
+	background-color: #669900;
+	color: white;
+	font-size:20px;
+	font-weight:700;
+    text-align: center;
+    border:1px solid green;
+    padding:0.5rem 0 0;
+    height:100%;
+    cursor:pointer;
+}
+.toggle-list, .list-item, .list-btn{
+	width:100%;
+}
+.toggle-list.hidden{
+	display:none;
+	position:absolute;
+	z-index:2;
+}
+.toggle:hover .toggle-list{
+	display:block;
+}
+
+.list-btn{
+	height:4rem;
+	background-color:lightgray;
+	color : gray;
+	border:none;
+}
+
+.list-btn:hover{
+	background-color:beige;
+	color : black;
+}
+table, th, td {
+	border:1px solid lightgray;
+}
+table{
+	font-size:14px;
+}
+th, td {
+	text-align: center;
+}
+.table-list{
+	background-color:beige;
+}
+.main-container{
+	padding-top : 2rem;
+}
+#change-List-title{
+	color : gray;
+	font-weight:700;
+	margin-bottom:1rem;
+}
+
+#selector-name{
+	margin-right: 2rem;
+}
+.eq-items{
+	cursor : pointer;
+}

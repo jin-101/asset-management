@@ -63,4 +63,8 @@ public class EquipmentService {
 	public int eqUpdate(EquiVO eq) {
 		return eqDao.eqUpdate(eq);
 	}
+	//장비삭제
+	public int eqDelete(int eqId) {
+		return eqDao.eqDelete(eqId);
+	}
 }

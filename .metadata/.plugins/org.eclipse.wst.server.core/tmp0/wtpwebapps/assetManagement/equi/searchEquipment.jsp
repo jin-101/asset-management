@@ -9,6 +9,7 @@
 <meta charset="UTF-8">
 <title>장비조회관련 테이블 생성</title>
 <link rel="stylesheet" href="${path}/css/searchEquipment.css">
+<%-- <script defer src="${path}/js/equiList.js"></script> --%>
 <script defer src="${path}/js/searchEquipment.js"></script>
 </head>
 <body>
@@ -37,7 +38,7 @@
 						<td class="col5">${equipment.purchaseDate}</td>
 						<td class="col6">${equipment.price}</td>
 						<td class="col7">
-							<button class="btn rentalType-btn" data-equipmentId="${equipment.equipmentId}" data-model="${equipment.model}"></button>
+							<button class="btn changeType-btn" data-equipmentId="${equipment.equipmentId}" data-model="${equipment.model}"></button>
 						</td>
 					</tr>
 				</c:forEach>

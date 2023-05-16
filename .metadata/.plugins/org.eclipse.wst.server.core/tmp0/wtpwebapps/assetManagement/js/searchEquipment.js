@@ -1,74 +1,26 @@
 $(function() {
-	const PATH = getContextPath();
-	const btnTypeInfo = getBtnTypeInformation();
-
+	//update시 실행되는 함수 (equiList 공통함수)
+	jqueryUpdateAction();
+	
 	//대여 or 반납 버튼을 눌렀을 때
-	$(".rentalType-btn").click(function(e) {
+	$(".changeType-btn").click(function(e) {
 		e.stopPropagation();
 		const btnType = $(this).attr("data-btnType");
-		if (btnType === "rentalBtn") {
-			//장비대여로직
-			$.ajax({
-				url: PATH + "/emp/allEmpAndDept.do",
-				method: "GET",
-				beforeSend: () => {
-					$("#my-spinner").show();
-					$("#rental-user").html("");
-				},
-				success: (res) => {
-					const userArr = JSON.parse(res);
-					$("#rental-user").append("<option>선택하세요</option>");
-					$.each(userArr, (index, el) => {
-						const dept = el.subpart.dept.departmentName;
-						$("#rental-user").append("<option>" + el.firstName + " " + el.lastName + " " + (dept ? "(" + dept + ")" : '') + "</option>");
-						if(userArr.length-1 === index) $("#my-spinner").hide();
-					});
-					if(userArr.length===0) $("#my-spinner").hide();
-				},
-				error: (err) => {
-					console.log(err);
-					$("#my-spinner").hide();
-				}
-			});
-
-			// 팝업띄우기
-			$("#modal-input-eqId").val($(this).attr("data-equipmentId"));
-			$("#modal-input-eqModel").val($(this).attr("data-model"));
-			$("html").css("overflow", "hidden");
-			$(".modal").css("display", "block");
-		} else {
-			//장비반납로직
-			const { ajaxPath, ajaxMethod } = btnTypeInfo[btnType];
-			const returnData = {
-				eqId: $(this).attr("data-equipmentid")
-			};
-			$.ajax({
-				url: PATH + "/equi/" + ajaxPath,
-				method: ajaxMethod,
-				data: returnData,
-				beforeSend: () => {
-					$("#my-spinner").show();
-				},
-				success: (res) => {
-					$("#my-spinner").hide();
-					if (res === '1') {
-						alert("반납성공");
-						location.href = PATH + "/equi/equiList.do"
-					}
-				},
-				error: (err) => {
-					console.log(err);
-					$("#my-spinner").hide();
-				}
-			});
+		switch(btnType){
+			case "rentalBtn":
+				rentalAction.bind(this)();
+				break; 
+			case "returnBtn":
+			case "removeBtn":
+				returnAction.bind(this)({btnType:btnType});
+				break;
 		}
-
 	});
 
 	//모달-대여하기버튼 클릭시
 	$(".rental-btn").click(function() {
 		const empId = $("#rental-user option").index($("#rental-user option:selected"));
-		const btnType = $(".rentalType-btn").attr("data-btnType");
+		const btnType = $(".changeType-btn").attr("data-btnType");
 		const { ajaxPath, ajaxMethod } = btnTypeInfo[btnType];
 		if (empId !== 0) {
 			const rentalData = {
@@ -107,8 +59,62 @@ $(function() {
 	});
 	
 	
-	// 장비내역수정으로 이동
-	$(".eq-items").click(function(){
-		location.href = PATH+"/equi/equipmentDetail.do?eqid=" + $(this).attr("data-id");
-	});
+	//장비대여 로직
+	function rentalAction (){
+		$.ajax({
+			url: PATH + "/emp/allEmpAndDept.do",
+			method: "GET",
+			beforeSend: () => {
+				$("#my-spinner").show();
+				$("#rental-user").html("");
+			},
+			success: (res) => {
+				const userArr = JSON.parse(res);
+				$("#rental-user").append("<option>선택하세요</option>");
+				$.each(userArr, (index, el) => {
+					const dept = el.subpart.dept.departmentName;
+					$("#rental-user").append("<option>" + el.firstName + " " + el.lastName + " " + (dept ? "(" + dept + ")" : '') + "</option>");
+					if(userArr.length-1 === index) $("#my-spinner").hide();
+				});
+				if(userArr.length===0) $("#my-spinner").hide();
+			},
+			error: (err) => {
+				console.log(err);
+				$("#my-spinner").hide();
+			}
+		});
+
+		// 팝업띄우기
+		$("#modal-input-eqId").val($(this).attr("data-equipmentId"));
+		$("#modal-input-eqModel").val($(this).attr("data-model"));
+		$("html").css("overflow", "hidden");
+		$(".modal").css("display", "block");
+	}
+	
+	//장비반납 및 삭제 로직
+	function returnAction({btnType}){
+		const { btnText, ajaxPath, ajaxMethod } = btnTypeInfo[btnType];
+		const returnData = {
+			eqId: $(this).attr("data-equipmentid")
+		};
+		$.ajax({
+			url: PATH + "/equi/" + ajaxPath,
+			method: ajaxMethod,
+			data: returnData,
+			beforeSend: () => {
+				$("#my-spinner").show();
+			},
+			success: (res) => {
+				$("#my-spinner").hide();
+				if (res === '1') {
+					alert( btnText + "성공");
+					location.href = PATH + "/equi/equiList.do"
+				}
+			},
+			error: (err) => {
+				console.log(err);
+				$("#my-spinner").hide();
+			}
+		});
+	}
 })
