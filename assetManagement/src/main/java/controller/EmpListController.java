@@ -17,7 +17,7 @@ public class EmpListController implements CommonControllerInterface {
 		List<EmpVO> emplist = service.empSelectAll();
 		
 		HttpServletRequest request = (HttpServletRequest) data.get("request");
-		request.setAttribute("empAll", emplist);
+		request.setAttribute("selectorlist", emplist);
 		
 		String page = "empList.jsp";
 		return page;

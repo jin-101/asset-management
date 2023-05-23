@@ -51,9 +51,9 @@
 			<div class="modal-box">
 				<div class="label-container"><label>장비ID : </label><input type="text" id="modal-input-eqId" class="label-content" disabled></div>
 				<div class="label-container"><label>장비모델명 : </label><input type="text" id="modal-input-eqModel" class="label-content" disabled></div>
-				<div class="label-container"><label>대여자 : </label>
-					<select id="rental-user" class="label-content">
-				    </select>
+				<div id="emp-select" class="label-container">
+					<label>대여자 : </label>
+					<div id="modal-hidden-html"></div> <!-- 데이터 불러오기위한 hidden div -->
 				</div>
 			</div>
 			<button class="rental-btn btn btn-success">대여하기</button>

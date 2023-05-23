@@ -3,6 +3,7 @@ package service;
 import java.util.List;
 
 import dao.EquipmentDAO;
+import vo.EmpVO;
 import vo.EquiVO;
 
 public class EquipmentService {
@@ -38,7 +39,14 @@ public class EquipmentService {
 	public List<EquiVO> rentModelSearch(String model) {
 		return eqDao.rentModelSearch(model);
 	}
-	
+	//직원별 사용중인 장비 조회
+	public List<EquiVO> userEqSearch(int userId) {
+		return eqDao.userEqSearch(userId);
+	}
+	//장비ID별 현재 사용자 조회
+	public EmpVO equiIdSearch(int eqId) {
+		return eqDao.equiIdSearch(eqId);
+	}
 	//장비대여
 	public int eqRental(int equipmentId, int employeeId) {
 		return eqDao.eqRental(equipmentId, employeeId);

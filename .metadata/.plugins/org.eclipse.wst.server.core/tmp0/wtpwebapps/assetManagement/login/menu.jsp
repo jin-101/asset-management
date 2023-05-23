@@ -10,7 +10,7 @@
 <title>선택메뉴</title>
 <jsp:include page="/common/common.jsp"></jsp:include>
 <link rel="stylesheet" href="${path}/css/menu.css">
-<script type="text/javascript" defer src="${path}/js/menu.js"></script>
+<script defer src="${path}/js/menu.js"></script>
 </head>
 <body>
 	<main>

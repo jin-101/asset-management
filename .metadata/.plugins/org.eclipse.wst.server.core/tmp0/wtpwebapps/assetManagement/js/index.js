@@ -85,3 +85,59 @@ function makeModal({
 		modalContainer.remove();
 	});
 };
+
+async function makeSelectBoxByEmp ({
+	dataArr,
+	parentElement,
+	selectorId,
+	selectorClass,
+	callback
+}){
+	const selector = document.createElement("select");
+	if(selectorId) selector.id = selectorId;
+	if(selectorClass) selector.className = selectorClass;
+	parentElement.append(selector);
+	
+	const titleOption = document.createElement("option");
+	titleOption.innerText ="선택하세요."
+	selector.append(titleOption);
+	
+	const make = new Promise((res,rej)=>{
+		dataArr.forEach((el,index)=>{
+			const dept = el.subpart.dept.departmentName;
+			const option = document.createElement("option");
+			option.innerText = el.firstName + " " + el.lastName + " " + (dept ? "(" + dept + ")" : '');
+			selector.append(option);
+			if(dataArr.length-1 === index) res();
+		});
+	});
+	await make;
+	if(callback) callback();
+}
+
+async function makeSelectBoxByString ({
+	dataArr,
+	parentElement,
+	selectorId,
+	selectorClass,
+	callback
+}){
+	const selector = document.createElement("select");
+	if(selectorId) selector.id = selectorId;
+	if(selectorClass) selector.className = selectorClass;
+	parentElement.append(selector);
+	
+	const titleOption = document.createElement("option");
+	titleOption.innerText ="선택하세요."
+	selector.append(titleOption);
+	const make = new Promise((res,rej)=>{
+		dataArr.forEach((el,index)=>{
+			const option = document.createElement("option");
+			option.innerText = el;
+			selector.append(option);
+			if(dataArr.length-1 === index) res();
+		});
+	});
+	await make;
+	if(callback) callback();
+}

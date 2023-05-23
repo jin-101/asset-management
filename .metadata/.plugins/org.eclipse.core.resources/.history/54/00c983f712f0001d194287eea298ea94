@@ -1,6 +1,0 @@
-package vo;
-
-public class DeptVO {
-	private int department_id;
-	private String department_name;
-}

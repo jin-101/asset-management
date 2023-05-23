@@ -17,9 +17,10 @@ public class AllEmpAndDeptController implements CommonControllerInterface {
 		EmpService service = new EmpService();
 		List<EmpVO> emplist = service.allEmpAndDept();
 		HttpServletRequest request = (HttpServletRequest) data.get("request");
-		request.setAttribute("empAll", emplist);
 		ObjectMapper objectMapper = new ObjectMapper();
-		return "responseBody:" + objectMapper.writeValueAsString(emplist);
+		request.setAttribute("selectorlist", objectMapper.writeValueAsString(emplist));
+		String page = "selectorOptionEquipment.jsp";
+		return page;
 	}
 
 }

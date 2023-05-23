@@ -37,8 +37,6 @@ public class FrontController extends HttpServlet {
 		data.put("request", request);
 		data.put("response", response);
 		
-		System.out.println("--- "+path);
-		
 		switch(path) {
 			case "/login/signin.do": {
 				controller = new SigninController(); break;
@@ -83,13 +81,23 @@ public class FrontController extends HttpServlet {
 				controller = new EquipmentDeleteController(); break;
 			}
 			
+			case "/equi/allEmpAndDept.do":{
+				controller = new AllEmpAndDeptController(); break;
+			}
+			case "/equi/searchEquipmentByEmployee.do":{
+				controller = new SearchEquipmentByEmployeeController(); break;
+			}
+			case "/equi/countAllEquipment.do":{
+				controller = new CountAllEquipmentController(); break;
+			}
+			case "/equi/searchEmployeeByEquipmentId.do":{
+				controller = new SearchEmployeeByEquipmentIdController(); break;
+			}
 			
 			case "/emp/empList.do":{
 				controller = new EmpListController(); break;
 			}
-			case "/emp/allEmpAndDept.do":{
-				controller = new AllEmpAndDeptController(); break;
-			}
+
 			default: break;
 		}
 		

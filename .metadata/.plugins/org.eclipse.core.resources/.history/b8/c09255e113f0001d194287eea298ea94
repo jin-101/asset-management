@@ -1,8 +1,0 @@
-package vo;
-
-public class JobsVO {
-	private String jobId;
-	private String jobTitle;
-	private int minSalary;
-	private int maxSalary;
-}

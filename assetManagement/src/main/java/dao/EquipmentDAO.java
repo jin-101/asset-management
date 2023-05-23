@@ -9,9 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dbutil.Util;
+import vo.EmpVO;
 import vo.EquiCompanyVO;
 import vo.EquiTypeVO;
 import vo.EquiVO;
+import vo.JobsVO;
+import vo.PositionVO;
+import vo.SubpartVO;
 
 public class EquipmentDAO {
 	private Connection conn;
@@ -208,6 +212,56 @@ public class EquipmentDAO {
 		return list;
 	}
 	
+	//직원별 사용중인 장비 조회
+	public List<EquiVO> userEqSearch(int userId) {
+		String sql = """
+				select eq.* from rental r join employees emp on (r.employees_EMPLOYEE_ID = emp.EMPLOYEE_ID)
+											join equipments eq on (r.equipments_EQUIPMENT_ID = eq.EQUIPMENT_ID)
+							where r.STATUS = '대여'
+							and r.employees_EMPLOYEE_ID = ?
+				""";
+		List<EquiVO> list = new ArrayList<>();
+		conn = Util.getConnection();
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, userId);
+			rs = pst.executeQuery();
+			while(rs.next()) {
+				EquiVO emp = makeEqui(rs);
+				list.add(emp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Util.dbDisconnect(rs, st, conn);
+		}
+		return list;
+	}
+	
+	//장비ID별 현재 사용자 조회
+	public EmpVO equiIdSearch(int eqId) {
+		String sql = """
+				select emp.* from rental r join employees emp on (r.employees_EMPLOYEE_ID = emp.EMPLOYEE_ID)
+											join equipments eq on (r.equipments_EQUIPMENT_ID = eq.EQUIPMENT_ID)
+							where r.STATUS = '대여'
+				            and r.equipments_EQUIPMENT_ID = ?
+				""";
+		
+		conn = Util.getConnection();
+		EmpVO emp = new EmpVO();
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, eqId);
+			rs = pst.executeQuery();
+			emp = makeEmp(rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Util.dbDisconnect(rs, st, conn);
+		}
+		return emp;
+	}
+	
 	//장비대여
 	public int eqRental(int equipmentId, int employeeId) {
 		try {
@@ -376,6 +430,30 @@ public class EquipmentDAO {
 		equi.setEquiType(equiType);
 		equi.setEquiCompany(equiCom);
 		return equi;
+	}
+	
+	// 직원 필드 생성
+	private EmpVO makeEmp(ResultSet rs) throws SQLException {
+		EmpVO emp = new EmpVO();
+		JobsVO jobs = new JobsVO();
+		SubpartVO subpart = new SubpartVO();
+		PositionVO position = new PositionVO();
+		
+		emp.setEmployeeId(rs.getInt("Employee_id"));
+		emp.setFirstName(rs.getString("First_name"));
+		emp.setLastName(rs.getString("Last_name"));
+		emp.setEmail(rs.getString("Email"));
+		emp.setPhoneNumber(rs.getString("Phone_number"));
+		emp.setHireDate(rs.getDate("Hire_date"));
+		jobs.setJobId(rs.getString("jobs_JOB_ID"));
+		emp.setSalary(rs.getInt("Salary"));
+		subpart.setPartNo(rs.getInt("subpart_PART_NO"));
+		position.setPositionId(rs.getInt("position_POSITION_ID"));
+		
+		emp.setJobs(jobs);
+		emp.setSubpart(subpart);
+		emp.setPosition(position);
+		return emp;
 	}
 		
 	

@@ -1,0 +1,20 @@
+#selector-search-header {
+	padding: 1rem;
+	border: 1px solid gray;
+	display: flex;
+	align-items: center;
+}
+
+.selector-search-left {
+	width: 70%;
+}
+
+.selector-search-right {
+	width: 30%;
+	display: flex;
+	justify-content: flex-end;
+}
+
+#hidden-data{
+	display:"none";
+}

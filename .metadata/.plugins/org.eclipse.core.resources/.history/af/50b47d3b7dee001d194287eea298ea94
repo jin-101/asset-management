@@ -1,5 +1,0 @@
-$(function(){
-	$(".list-btn").click(function(){
-		console.log(this)
-	});
-});

@@ -32,10 +32,10 @@
 	        			<button id="list-btn1" class="list-btn" type="button" data-btnType="rentalBtn">대여가능장비 전체조회</button>
 	        		</div>
 	        		<div class="list-item">
-	        			<button id="list-btn2" class="list-btn" type="button" data-name="type_name" data-selector-title="장비유형"  data-btnType="rentalBtn">유형별 대여가능 장비조회</button>
+	        			<button id="list-btn2" class="list-btn" type="button" data-res="string" data-name="type_name" data-selector-title="장비유형"  data-btnType="rentalBtn">유형별 대여가능 장비조회</button>
  	       			</div>
  	       			<div class="list-item">
-	        			<button id="list-btn3" class="list-btn" type="button" data-name="model" data-selector-title="모델명"  data-btnType="rentalBtn">모델별 대여가능 장비조회</button>
+	        			<button id="list-btn3" class="list-btn" type="button" data-res="string" data-name="model" data-selector-title="모델명"  data-btnType="rentalBtn">모델별 대여가능 장비조회</button>
  	       			</div>
         		 </div>
 			</div>
@@ -46,10 +46,10 @@
 	        			<button id="list-btn4" class="list-btn" type="button" data-btnType="returnBtn">사용중인장비 전체조회</button>
 	        		</div>
 	        		<div class="list-item">
-	        			<button id="list-btn5" class="list-btn" type="button" data-btnType="returnBtn">사용자별 사용중인 장비조회</button>
+	        			<button id="list-btn5" class="list-btn" type="button" data-res="emp" data-name="emp_name" data-selector-title="사용자"  data-btnType="returnBtn">사용자별 사용중인 장비조회</button>
  	       			</div>
  	       			<div class="list-item">
-	        			<button id="list-btn6" class="list-btn" type="button" data-btnType="returnBtn">장비ID별 현재 사용자 조회</button>
+	        			<button id="list-btn6" class="list-btn" type="button" data-res="" data-selector-title="장비ID" data-btnType="returnBtn">장비ID별 현재 사용자 조회</button>
  	       			</div>
         		 </div>
 			</div>

@@ -152,56 +152,56 @@ public class AssetDAO_test {
 //	}
 	
 //1-2-2 직원별 사용중인 장비 조회
-	public List<EquiVO> userEqSearch(int userId) {
-		String sql = """
-				select eq.* from rental r join employees emp on (r.employees_EMPLOYEE_ID = emp.EMPLOYEE_ID)
-											join equipments eq on (r.equipments_EQUIPMENT_ID = eq.EQUIPMENT_ID)
-							where r.STATUS = '대여'
-							and r.employees_EMPLOYEE_ID = ?
-				""";
-		List<EquiVO> list = new ArrayList<>();
-		conn = Util.getConnection();
-		try {
-			pst = conn.prepareStatement(sql);
-			pst.setInt(1, userId);
-			rs = pst.executeQuery();
-			while(rs.next()) {
-				EquiVO emp = makeEqui(rs);
-				list.add(emp);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			Util.dbDisconnect(rs, st, conn);
-		}
-		return list;
-	}
+//	public List<EquiVO> userEqSearch(int userId) {
+//		String sql = """
+//				select eq.* from rental r join employees emp on (r.employees_EMPLOYEE_ID = emp.EMPLOYEE_ID)
+//											join equipments eq on (r.equipments_EQUIPMENT_ID = eq.EQUIPMENT_ID)
+//							where r.STATUS = '대여'
+//							and r.employees_EMPLOYEE_ID = ?
+//				""";
+//		List<EquiVO> list = new ArrayList<>();
+//		conn = Util.getConnection();
+//		try {
+//			pst = conn.prepareStatement(sql);
+//			pst.setInt(1, userId);
+//			rs = pst.executeQuery();
+//			while(rs.next()) {
+//				EquiVO emp = makeEqui(rs);
+//				list.add(emp);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			Util.dbDisconnect(rs, st, conn);
+//		}
+//		return list;
+//	}
 	
 //1-2-3 장비ID별 현재 사용자 조회
-	public List<EmpVO> equiIdSearch(int eqId) {
-		String sql = """
-				select emp.* from rental r join employees emp on (r.employees_EMPLOYEE_ID = emp.EMPLOYEE_ID)
-											join equipments eq on (r.equipments_EQUIPMENT_ID = eq.EQUIPMENT_ID)
-							where r.STATUS = '대여'
-				            and r.equipments_EQUIPMENT_ID = ?
-				""";
-		List<EmpVO> list = new ArrayList<>();
-		conn = Util.getConnection();
-		try {
-			pst = conn.prepareStatement(sql);
-			pst.setInt(1, eqId);
-			rs = pst.executeQuery();
-			while(rs.next()) {
-				EmpVO emp = makeEmp(rs);
-				list.add(emp);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			Util.dbDisconnect(rs, st, conn);
-		}
-		return list;
-	}
+//	public List<EmpVO> equiIdSearch(int eqId) {
+//		String sql = """
+//				select emp.* from rental r join employees emp on (r.employees_EMPLOYEE_ID = emp.EMPLOYEE_ID)
+//											join equipments eq on (r.equipments_EQUIPMENT_ID = eq.EQUIPMENT_ID)
+//							where r.STATUS = '대여'
+//				            and r.equipments_EQUIPMENT_ID = ?
+//				""";
+//		List<EmpVO> list = new ArrayList<>();
+//		conn = Util.getConnection();
+//		try {
+//			pst = conn.prepareStatement(sql);
+//			pst.setInt(1, eqId);
+//			rs = pst.executeQuery();
+//			while(rs.next()) {
+//				EmpVO emp = makeEmp(rs);
+//				list.add(emp);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			Util.dbDisconnect(rs, st, conn);
+//		}
+//		return list;
+//	}
 	
 	
 //1-3-1 장비대여
@@ -280,29 +280,29 @@ public class AssetDAO_test {
 //	}
 	
 //1-4-1 신규장비등록(insert)
-	public int eqInsert(EquiVO eq) {
-		String sql = """
-				insert into equipments (equipmentstype_TYPE_ID, equipmentscompany_CO_ID, MODEL, SERIAL_NO, PURCHASE_DATE, PRICE)
-				values (?, ?, ?, ?, ?, ?)
-				""";
-		conn = Util.getConnection();
-		try {
-			pst = conn.prepareStatement(sql);
-			pst.setString(1, eq.getEquipmentstype_TYPE_ID());
-			pst.setString(2, eq.getEquipmentscompany_CO_ID());
-			pst.setString(3, eq.getMODEL());
-			pst.setString(4, eq.getSERIAL_NO());
-			pst.setDate(5, eq.getPURCHASE_DATE());
-			pst.setInt(6, eq.getPRICE());
-			resultCount = pst.executeUpdate(); //DML문장 실행한다. 
-		} catch (SQLException e) {
-			resultCount = -1;
-			e.printStackTrace();
-		} finally {
-			Util.dbDisconnect(null, pst, conn);
-		}
-		return resultCount;
-	}
+//	public int eqInsert(EquiVO eq) {
+//		String sql = """
+//				insert into equipments (equipmentstype_TYPE_ID, equipmentscompany_CO_ID, MODEL, SERIAL_NO, PURCHASE_DATE, PRICE)
+//				values (?, ?, ?, ?, ?, ?)
+//				""";
+//		conn = Util.getConnection();
+//		try {
+//			pst = conn.prepareStatement(sql);
+//			pst.setString(1, eq.getEquipmentstype_TYPE_ID());
+//			pst.setString(2, eq.getEquipmentscompany_CO_ID());
+//			pst.setString(3, eq.getMODEL());
+//			pst.setString(4, eq.getSERIAL_NO());
+//			pst.setDate(5, eq.getPURCHASE_DATE());
+//			pst.setInt(6, eq.getPRICE());
+//			resultCount = pst.executeUpdate(); //DML문장 실행한다. 
+//		} catch (SQLException e) {
+//			resultCount = -1;
+//			e.printStackTrace();
+//		} finally {
+//			Util.dbDisconnect(null, pst, conn);
+//		}
+//		return resultCount;
+//	}
 	
 //1-4-2 장비정보수정(Update)
 //	public int eqUpdate(EquiVO eq) {
@@ -330,43 +330,43 @@ public class AssetDAO_test {
 //	}
 	
 //1-4-2-sub 장비번호로 직원정보조회
-	public EquiVO selectByEqId(int eqId) {
-		EquiVO eq = null;
-		String sql = "select * from equipments where equipment_id = " + eqId;
-		conn = Util.getConnection();
-		try {
-			st = conn.createStatement();
-			rs = st.executeQuery(sql);
-			while(rs.next()) {
-				eq = makeEqui(rs);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			Util.dbDisconnect(rs, st, conn);
-		}
-		return eq;
-	}
+//	public EquiVO selectByEqId(int eqId) {
+//		EquiVO eq = null;
+//		String sql = "select * from equipments where equipment_id = " + eqId;
+//		conn = Util.getConnection();
+//		try {
+//			st = conn.createStatement();
+//			rs = st.executeQuery(sql);
+//			while(rs.next()) {
+//				eq = makeEqui(rs);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			Util.dbDisconnect(rs, st, conn);
+//		}
+//		return eq;
+//	}
 //1-4-3 장비삭제
-	public int eqDelete(int eqId) {
-		String sql = """
-				delete from equipments
-				where equipment_id = ?
-				""";
-		conn = Util.getConnection();
-		try {
-			pst = conn.prepareStatement(sql);
-			pst.setInt(1, eqId);
-			resultCount = pst.executeUpdate(); //DML문장 실행한다.
-		} catch (SQLException e) {
-			resultCount = -1;
-			//e.printStackTrace();
-			System.out.println("보유중인 장비는 삭제될 수 없습니다.");
-		} finally {
-			Util.dbDisconnect(null, pst, conn);
-		}
-		return resultCount;
-	}
+//	public int eqDelete(int eqId) {
+//		String sql = """
+//				delete from equipments
+//				where equipment_id = ?
+//				""";
+//		conn = Util.getConnection();
+//		try {
+//			pst = conn.prepareStatement(sql);
+//			pst.setInt(1, eqId);
+//			resultCount = pst.executeUpdate(); //DML문장 실행한다.
+//		} catch (SQLException e) {
+//			resultCount = -1;
+//			//e.printStackTrace();
+//			System.out.println("보유중인 장비는 삭제될 수 없습니다.");
+//		} finally {
+//			Util.dbDisconnect(null, pst, conn);
+//		}
+//		return resultCount;
+//	}
 	
 	
 	
@@ -493,33 +493,33 @@ public class AssetDAO_test {
 	}
 	
 // 장비 필드 생성
-	private EquiVO makeEqui(ResultSet rs) throws SQLException {
-		EquiVO equi = new EquiVO();
-		equi.setEquipment_id(rs.getInt("equipment_id"));
-		equi.setEquipmentstype_TYPE_ID(rs.getString("equipmentstype_TYPE_ID"));
-		equi.setEquipmentscompany_CO_ID(rs.getString("equipmentscompany_CO_ID"));
-		equi.setMODEL(rs.getString("MODEL"));
-		equi.setSERIAL_NO(rs.getString("SERIAL_NO"));
-		equi.setPURCHASE_DATE(rs.getDate("PURCHASE_DATE"));
-		equi.setPRICE(rs.getInt("PRICE"));
-		return equi;
-	}
-	
+//	private EquiVO makeEqui(ResultSet rs) throws SQLException {
+//		EquiVO equi = new EquiVO();
+//		equi.setEquipment_id(rs.getInt("equipment_id"));
+//		equi.setEquipmentstype_TYPE_ID(rs.getString("equipmentstype_TYPE_ID"));
+//		equi.setEquipmentscompany_CO_ID(rs.getString("equipmentscompany_CO_ID"));
+//		equi.setMODEL(rs.getString("MODEL"));
+//		equi.setSERIAL_NO(rs.getString("SERIAL_NO"));
+//		equi.setPURCHASE_DATE(rs.getDate("PURCHASE_DATE"));
+//		equi.setPRICE(rs.getInt("PRICE"));
+//		return equi;
+//	}
+//	
 // 직원 필드 생성
-	private EmpVO makeEmp(ResultSet rs) throws SQLException {
-		EmpVO emp = new EmpVO();
-		emp.setEmployee_id(rs.getInt("Employee_id"));
-		emp.setFirst_name(rs.getString("First_name"));
-		emp.setLast_name(rs.getString("Last_name"));
-		emp.setEmail(rs.getString("Email"));
-		emp.setPhone_number(rs.getString("Phone_number"));
-		emp.setHire_date(rs.getDate("Hire_date"));
-		emp.setJobs_JOB_ID(rs.getString("jobs_JOB_ID"));
-		emp.setSalary(rs.getInt("Salary"));
-		emp.setSubpart_PART_NO(rs.getInt("subpart_PART_NO"));
-		emp.setPosition_POSITION_ID(rs.getInt("position_POSITION_ID"));
-		return emp;
-	}
+//	private EmpVO makeEmp(ResultSet rs) throws SQLException {
+//		EmpVO emp = new EmpVO();
+//		emp.setEmployee_id(rs.getInt("Employee_id"));
+//		emp.setFirst_name(rs.getString("First_name"));
+//		emp.setLast_name(rs.getString("Last_name"));
+//		emp.setEmail(rs.getString("Email"));
+//		emp.setPhone_number(rs.getString("Phone_number"));
+//		emp.setHire_date(rs.getDate("Hire_date"));
+//		emp.setJobs_JOB_ID(rs.getString("jobs_JOB_ID"));
+//		emp.setSalary(rs.getInt("Salary"));
+//		emp.setSubpart_PART_NO(rs.getInt("subpart_PART_NO"));
+//		emp.setPosition_POSITION_ID(rs.getInt("position_POSITION_ID"));
+//		return emp;
+//	}
 
 	
 

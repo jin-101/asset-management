@@ -1,9 +1,0 @@
-$(function(){
-	$(".equipMenuBtn").click(function(){
-		
-	});
-	
-	$(".empMenuBtn").click(function(){
-		
-	});
-})

@@ -5,8 +5,8 @@ const ajaxParamsInfo = {
 		'list-btn2' : {path:"allEquipmentType.do", successF:listSearchSuccess},
 		'list-btn3' : {path:"allEquipmentModel.do", successF:listSearchSuccess},
 		'list-btn4' : {path:"usingEquipment.do", successF:listAllSuccess},
-		'list-btn5':"",
-		'list-btn6':"",
+		'list-btn5': {path:"allEmpAndDept.do", successF:listSearchSuccess},
+		'list-btn6': {path:"countAllEquipment.do", successF:modifySuccess},
 		'list-btn7' : {path:"equipmentInsert.do", successF:modifySuccess},
 		'list-btn8': {path:"rentalPossibleEquipment.do", successF:listAllSuccess}, //rentalPossibleEquipment.do
 		'eq-items': {path:"equipmentDetail.do", successF:modifySuccess}
@@ -97,13 +97,26 @@ function listSearchSuccess(res){
 	const btnType = $(this).attr("data-btnType");
 	const dataTitle = $(this).attr("data-selector-title");
 	const dataName = $(this).attr("data-name");
-	$("#change-List-contents").html(res);
+	$("#change-List-contents").html(res);//새로운 html 넣기
 	$("#selector-name").html(dataTitle + " :");
+	
+	const stringData = $("#hidden-data").html();
+	const params = {
+		parentElement: $("#div-select"),
+		selectorId : "optionSelect",
+		callback: () => {
+			$("#my-spinner").hide();
+		}
+	};
+	if($(this).attr("data-res")==="emp") makeSelectBoxByEmp({ dataArr:JSON.parse(stringData), ...params});
+	else makeSelectBoxByString({ dataArr:stringData.replace("[","").replace("]","").split(","), ...params});
+	
 	$("#optionSelect").attr("name",dataName);
 	$(".search-btn").attr("data-btnType",btnType);
 	$("#my-spinner").hide();
+	$("#hidden-data")?.remove(); //데이터값 지우기
 }
-//insert, update
+//insert, update, inputSearchEquipment
 function modifySuccess(res){
 	$("#change-List-contents").html(res);
 	$("#my-spinner").hide();

@@ -1,0 +1,25 @@
+package controller;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+
+import service.EmpService;
+import vo.EmpVO;
+
+public class AllEmpAndDeptController implements CommonControllerInterface {
+
+	@Override
+	public String execute(Map<String, Object> data) throws Exception {
+		EmpService service = new EmpService();
+		List<EmpVO> list = service.allEmpAndDept();
+		HttpServletRequest request = (HttpServletRequest) data.get("request");
+		request.setAttribute("selectorlist", list);
+		String page = "selectorOptionEquipment.jsp";
+
+		return page;
+	}
+
+}

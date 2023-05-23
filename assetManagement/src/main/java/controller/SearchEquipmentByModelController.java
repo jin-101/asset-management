@@ -18,7 +18,6 @@ public class SearchEquipmentByModelController implements CommonControllerInterfa
 
 		List<EquiVO> eqlist = service.rentModelSearch(model);
 		request.setAttribute("eqAll", eqlist);
-		System.out.println(eqlist);
 		String page = "searchEquipment.jsp";
 		return page;
 	}

@@ -8,21 +8,15 @@
 <head>
 <meta charset="UTF-8">
 <title>특정 옵션 선택</title>
-<link rel="stylesheet" href="${path}/css/selectorOptionEquipment.css">
-<%-- <script defer src="${path}/js/equiList.js"></script> --%>
+<link rel="stylesheet" href="${path}/css/selectorOptionContainer.css">
 <script defer src="${path}/js/selectorOptionEquipment.js"></script>
 </head>
 <body>
 	<div id="change-List-contents">
 		<div id="selector-search-header">
-			<div class="selector-search-left">
+			<div id="div-select" class="selector-search-left">
 				<label id="selector-name"></label>
-				<select name="" id="optionSelect">
-					<option>선택하세요</option>
-			    	<c:forEach items="${selectorlist}" var="item">
-			    		<option>${item}</option>
-			    	</c:forEach>
-			    </select>
+				<div id="hidden-data">${selectorlist}</div> <!-- 데이터 불러오기위한 hidden div -->
 			</div>
 		    <div class="selector-search-right">
 		    	<button class="search-btn btn btn-primary">검색</button>

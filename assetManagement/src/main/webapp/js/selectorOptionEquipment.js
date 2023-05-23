@@ -1,7 +1,8 @@
 $(function(){
 	const apiPath = {
 			'model' : "searchEquipmentByModel.do",
-			'type_name': "searchEquipmentByType.do"
+			'type_name': "searchEquipmentByType.do",
+			"emp_name" : "searchEquipmentByEmployee.do"
   	};
 	
 	$(".search-btn").click(function() {
@@ -9,10 +10,11 @@ $(function(){
 		const btnType = $(this).attr("data-btnType");
 		const {btnText, btnClass} = btnTypeInfo[btnType];
 		const key = $("#optionSelect").attr("name");
-		const makeData = {}
+		const makeData = {
+			index :  $("#optionSelect option").index($("#optionSelect option:selected"))
+		}
 		makeData[key] = select;
-		
-		 $.ajax({
+		$.ajax({
 			url: PATH + "/equi/" + apiPath[key],
 			method:"GET",
 			data: makeData,

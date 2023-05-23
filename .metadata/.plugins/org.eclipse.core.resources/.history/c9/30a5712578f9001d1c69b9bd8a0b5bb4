@@ -1,0 +1,19 @@
+$(function(){
+	$(".search-btn").click(function() {
+		$.ajax({
+			url: PATH + "/equi/searchEmployeeByEquipmentId.do",
+			method:"GET",
+			beforeSend : () => {
+				$("#my-spinner").show();
+			},
+			success:(res)=>{
+				$("#input-search-content").html(res);
+				$("#my-spinner").hide();
+			},
+			error:(err)=>{
+				console.log(err);
+				$("#my-spinner").hide();
+			}
+		}); 
+	});
+});

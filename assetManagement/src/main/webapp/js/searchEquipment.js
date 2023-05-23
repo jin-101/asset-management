@@ -62,21 +62,29 @@ $(function() {
 	//장비대여 로직
 	function rentalAction (){
 		$.ajax({
-			url: PATH + "/emp/allEmpAndDept.do",
+			url: PATH + "/equi/allEmpAndDept.do",
 			method: "GET",
 			beforeSend: () => {
 				$("#my-spinner").show();
-				$("#rental-user").html("");
+				$("#rental-user").remove();
 			},
 			success: (res) => {
-				const userArr = JSON.parse(res);
-				$("#rental-user").append("<option>선택하세요</option>");
-				$.each(userArr, (index, el) => {
-					const dept = el.subpart.dept.departmentName;
-					$("#rental-user").append("<option>" + el.firstName + " " + el.lastName + " " + (dept ? "(" + dept + ")" : '') + "</option>");
-					if(userArr.length-1 === index) $("#my-spinner").hide();
-				});
+				$("#modal-hidden-html").html(res);
+				const stringData = $("#hidden-data").html();
+				const userArr = JSON.parse(stringData);
 				if(userArr.length===0) $("#my-spinner").hide();
+				else{
+					makeSelectBoxByEmp({
+						dataArr:userArr,
+						parentElement: $("#emp-select"),
+						selectorId : "rental-user",
+						selectorClass : "label-content",
+						callback: () => {
+							$("#my-spinner").hide();
+						}
+					});
+				}
+				$("#modal-hidden-html").html("") //데이터값 가져오기위해 입력한 html 지우기
 			},
 			error: (err) => {
 				console.log(err);

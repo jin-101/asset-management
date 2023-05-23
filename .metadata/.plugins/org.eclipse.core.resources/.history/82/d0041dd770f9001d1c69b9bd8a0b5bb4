@@ -1,0 +1,79 @@
+package service;
+
+import java.util.List;
+
+import dao.EquipmentDAO;
+import vo.EmpVO;
+import vo.EquiVO;
+
+public class EquipmentService {
+	EquipmentDAO eqDao = new EquipmentDAO();
+	
+	//모든 장비 조회
+	public List<EquiVO> eqSelectAll() {
+		return eqDao.eqSelectAll();
+	}
+	//id로 해당 장비 내역조회
+	public EquiVO eqSelectById(int eqid) {
+		return eqDao.eqSelectById(eqid);
+	}
+		
+	//대여가능장비 조회
+	public List<EquiVO> rentPossible() {
+		return eqDao.rentPossible();
+	}
+	
+	//사용중인 장비 모두 조회
+	public List<EquiVO> empUseEqAllSearch() {
+		return eqDao.empUseEqAllSearch();
+	}
+	// 대여장비 유형별조회
+	public List<EquiVO> eqTypeSearch(String typeName) {
+		return eqDao.eqTypeSearch(typeName);
+	}
+	//모든 장비모델명 중복없이 가져오기
+	public List<String> allModelList() {
+		return eqDao.allModelList();
+	}
+	// 대여장비 모델별조회
+	public List<EquiVO> rentModelSearch(String model) {
+		return eqDao.rentModelSearch(model);
+	}
+	//직원별 사용중인 장비 조회
+	public List<EquiVO> userEqSearch(int userId) {
+		return eqDao.userEqSearch(userId);
+	}
+	//장비ID별 현재 사용자 조회
+	public List<EmpVO> equiIdSearch(int eqId) {
+		return eqDao.equiIdSearch(eqId);
+	}
+	
+	//장비대여
+	public int eqRental(int equipmentId, int employeeId) {
+		return eqDao.eqRental(equipmentId, employeeId);
+	}
+	
+	//장비반납
+	public int eqRetrun(int eqId) {
+		return eqDao.eqRetrun(eqId);
+	}
+	
+	//rent테이블에 정보 삭제
+	public int rentInfoDelete(int eqId) {
+		return eqDao.rentInfoDelete(eqId);
+	}
+	
+	//장비등록
+	public int eqInsert(EquiVO eq) {
+		return eqDao.eqInsert(eq);
+	}
+	
+	//장비정보수정(Update)
+	public int eqUpdate(EquiVO eq) {
+		return eqDao.eqUpdate(eq);
+	}
+	//장비삭제
+	public int eqDelete(int eqId) {
+		return eqDao.eqDelete(eqId);
+	}
+}
