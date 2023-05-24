@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dbutil.Util;
+import vo.DeptVO;
 import vo.EmpVO;
 import vo.EquiCompanyVO;
 import vo.EquiTypeVO;
@@ -239,27 +240,37 @@ public class EquipmentDAO {
 	}
 	
 	//장비ID별 현재 사용자 조회
-	public EmpVO equiIdSearch(int eqId) {
+	public List<EmpVO> equiIdSearch(int eqId) {
 		String sql = """
-				select emp.* from rental r join employees emp on (r.employees_EMPLOYEE_ID = emp.EMPLOYEE_ID)
-											join equipments eq on (r.equipments_EQUIPMENT_ID = eq.EQUIPMENT_ID)
+				select * from departments dept right outer join
+					(select * from jobs jb join 
+							(select emp.* from rental r 
+							join employees emp on (r.employees_EMPLOYEE_ID = emp.EMPLOYEE_ID)
+							join equipments eq on (r.equipments_EQUIPMENT_ID = eq.EQUIPMENT_ID)
 							where r.STATUS = '대여'
-				            and r.equipments_EQUIPMENT_ID = ?
+				            and r.equipments_EQUIPMENT_ID = ?) condiT 
+		           	on (jb.job_id = condiT.jobs_JOB_ID)
+                    left outer join subpart on (subpart.part_no = condiT.subpart_part_no)
+					left outer join position on (position.position_id = condiT.position_position_id)) tempT
+                on (dept.department_id = tempT.departments_department_id)
 				""";
 		
 		conn = Util.getConnection();
-		EmpVO emp = new EmpVO();
+		List<EmpVO> emplist = new ArrayList<>();
 		try {
 			pst = conn.prepareStatement(sql);
 			pst.setInt(1, eqId);
 			rs = pst.executeQuery();
-			emp = makeEmp(rs);
+			while(rs.next()) {
+				EmpVO emp = makeEmp(rs);
+				emplist.add(emp);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			Util.dbDisconnect(rs, st, conn);
 		}
-		return emp;
+		return emplist;
 	}
 	
 	//장비대여
@@ -437,6 +448,7 @@ public class EquipmentDAO {
 		EmpVO emp = new EmpVO();
 		JobsVO jobs = new JobsVO();
 		SubpartVO subpart = new SubpartVO();
+		DeptVO dept = new DeptVO();
 		PositionVO position = new PositionVO();
 		
 		emp.setEmployeeId(rs.getInt("Employee_id"));
@@ -446,9 +458,15 @@ public class EquipmentDAO {
 		emp.setPhoneNumber(rs.getString("Phone_number"));
 		emp.setHireDate(rs.getDate("Hire_date"));
 		jobs.setJobId(rs.getString("jobs_JOB_ID"));
+		jobs.setJobTitle(rs.getString("JOB_TITLE"));
 		emp.setSalary(rs.getInt("Salary"));
+		dept.setDepartmentId(rs.getInt("DEPARTMENT_ID"));
+		dept.setDepartmentName(rs.getString("DEPARTMENT_NAME"));
 		subpart.setPartNo(rs.getInt("subpart_PART_NO"));
+		subpart.setDept(dept);
+		subpart.setPartName(rs.getString("PART_NAME"));
 		position.setPositionId(rs.getInt("position_POSITION_ID"));
+		position.setPositionTitle(rs.getString("POSITION_TITLE"));
 		
 		emp.setJobs(jobs);
 		emp.setSubpart(subpart);

@@ -30,7 +30,7 @@
 			<tbody>
 				<c:forEach items="${eqAll}" var="equipment" varStatus="status">
 					<tr class="eq-items" data-id="${equipment.equipmentId}">
-						<th class="col0">${equipment.equipmentId}</th>
+						<td class="col0">${equipment.equipmentId}</td>
 						<td class="col1">${equipment.equiType.getTypeId()}</td>
 						<td class="col2">${equipment.equiCompany.getCoId()}</td>
 						<td class="col3">${equipment.model}</td>

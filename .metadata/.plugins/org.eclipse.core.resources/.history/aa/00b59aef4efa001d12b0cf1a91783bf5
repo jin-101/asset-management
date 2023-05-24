@@ -1,0 +1,479 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import dbutil.Util;
+import vo.DeptVO;
+import vo.EmpVO;
+import vo.EquiCompanyVO;
+import vo.EquiTypeVO;
+import vo.EquiVO;
+import vo.JobsVO;
+import vo.PositionVO;
+import vo.SubpartVO;
+
+public class EquipmentDAO {
+	private Connection conn;
+	private Statement st;
+	private PreparedStatement pst; // ?지원
+	private ResultSet rs;
+	private int resultCount;
+
+	//모든 장비 조회
+	public List<EquiVO> eqSelectAll() {
+		String sql = """
+					select *
+					from equipments
+				""";
+		List<EquiVO> list = new ArrayList<>();
+		conn = Util.getConnection();
+		try {
+			st = conn.createStatement();
+			rs = st.executeQuery(sql);
+			while(rs.next()) {
+				EquiVO eq = makeEqui(rs);
+				list.add(eq);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Util.dbDisconnect(rs, st, conn);
+		}
+		return list;
+	}
+	//id로 해당 장비 내역조회
+	public EquiVO eqSelectById(int eqid) {
+		EquiVO eq = null;
+		String sql = "select * from equipments where EQUIPMENT_ID = " + eqid;
+		conn = Util.getConnection();
+		try {
+			st = conn.createStatement();
+			rs = st.executeQuery(sql);
+			while(rs.next()) {
+				eq = makeEqui(rs);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Util.dbDisconnect(rs, st, conn);
+		}
+		return eq;
+	}
+	
+	//대여가능장비 전체조회
+	public List<EquiVO> rentPossible() {
+		String sql = """
+					select EQUIPMENT_ID,
+						   equipmentstype_TYPE_ID,
+						   equipmentscompany_CO_ID,
+						   MODEL,
+						   SERIAL_NO,
+						   PURCHASE_DATE,
+						   PRICE
+					from equipments mainEq 
+					where mainEq.EQUIPMENT_ID not in (select eq.equipment_id 
+														from equipments eq join rental r on(eq.equipment_id = r.equipments_equipment_id) 
+														where r.status = '대여')
+				""";
+		List<EquiVO> list = new ArrayList<>();
+		conn = Util.getConnection();
+		try {
+			st = conn.createStatement();
+			rs = st.executeQuery(sql);
+			while(rs.next()) {
+				EquiVO eq = makeEqui(rs);
+				list.add(eq);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Util.dbDisconnect(rs, st, conn);
+		}
+		return list;
+	}
+	
+	// 사용중인 장비 모두 조회
+	public List<EquiVO> empUseEqAllSearch() {
+		String sql = """
+				select eq.* from rental r join employees emp on (r.employees_EMPLOYEE_ID = emp.EMPLOYEE_ID)
+											join equipments eq on (r.equipments_EQUIPMENT_ID = eq.EQUIPMENT_ID)
+							where r.STATUS = '대여' order by eq.EQUIPMENT_ID
+				""";
+		List<EquiVO> list = new ArrayList<>();
+		conn = Util.getConnection();
+		try {
+			st = conn.createStatement();
+			rs = st.executeQuery(sql);
+			System.out.println(rs);
+			while(rs.next()) {
+				EquiVO eq = makeEqui(rs);
+				list.add(eq);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Util.dbDisconnect(rs, st, conn);
+		}
+		return list;
+	}
+	
+	// 대여장비 유형별조회
+	public List<EquiVO> eqTypeSearch(String typeName) {
+		String sql = """
+					select EQUIPMENT_ID,
+						   equipmentstype_TYPE_ID,
+						   equipmentscompany_CO_ID,
+						   MODEL,
+						   SERIAL_NO,
+						   PURCHASE_DATE,
+						   PRICE
+					from equipments mainEq join equipmentstype eqT on (mainEq.equipmentstype_TYPE_ID = eqT.TYPE_ID)
+					where mainEq.EQUIPMENT_ID not in (select eq.equipment_id 
+														from equipments eq join rental r on(eq.equipment_id = r.equipments_equipment_id) 
+														where r.status = '대여')
+					and eqT.TYPE_NAME = ?
+				""";
+		List<EquiVO> list = new ArrayList<>();
+		conn = Util.getConnection();
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, typeName);
+			rs = pst.executeQuery();
+			while(rs.next()) {
+				EquiVO emp = makeEqui(rs);
+				list.add(emp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Util.dbDisconnect(rs, st, conn);
+		}
+		return list;
+	}
+	
+	//모든 장비모델명 중복없이 가져오기
+	public List<String> allModelList() {
+		List<String> model = new ArrayList<>();
+		String sql = """
+				select distinct model from equipments
+				""";
+		conn = Util.getConnection();
+		try {
+			pst = conn.prepareStatement(sql);
+			rs = pst.executeQuery();
+			while(rs.next()) {
+				model.add(rs.getString("MODEL"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Util.dbDisconnect(null, pst, conn);
+		}
+		return model;
+	}
+	
+	// 대여장비 모델별조회
+	public List<EquiVO> rentModelSearch(String model) {
+		String sql = """
+					select EQUIPMENT_ID,
+						   equipmentstype_TYPE_ID,
+						   equipmentscompany_CO_ID,
+						   MODEL,
+						   SERIAL_NO,
+						   PURCHASE_DATE,
+						   PRICE
+					from equipments mainEq 
+					where mainEq.EQUIPMENT_ID not in (select eq.equipment_id from equipments eq join rental r on(eq.equipment_id = r.equipments_equipment_id) 
+													  where r.status = '대여')
+					and mainEq.MODEL like ?
+
+				""";
+
+		List<EquiVO> list = new ArrayList<>();
+		conn = Util.getConnection();
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, "%"+model+"%");
+			rs = pst.executeQuery();
+			while(rs.next()) {
+				EquiVO eq = makeEqui(rs);
+				list.add(eq);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Util.dbDisconnect(rs, st, conn);
+		}
+		return list;
+	}
+	
+	//직원별 사용중인 장비 조회
+	public List<EquiVO> userEqSearch(int userId) {
+		String sql = """
+				select eq.* from rental r join employees emp on (r.employees_EMPLOYEE_ID = emp.EMPLOYEE_ID)
+											join equipments eq on (r.equipments_EQUIPMENT_ID = eq.EQUIPMENT_ID)
+							where r.STATUS = '대여'
+							and r.employees_EMPLOYEE_ID = ?
+				""";
+		List<EquiVO> list = new ArrayList<>();
+		conn = Util.getConnection();
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, userId);
+			rs = pst.executeQuery();
+			while(rs.next()) {
+				EquiVO emp = makeEqui(rs);
+				list.add(emp);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Util.dbDisconnect(rs, st, conn);
+		}
+		return list;
+	}
+	
+	//장비ID별 현재 사용자 조회
+	public EmpVO equiIdSearch(int eqId) {
+		String sql = """
+				select * from departments dept join
+					(select * from jobs jb join 
+							(select emp.* from rental r 
+							join employees emp on (r.employees_EMPLOYEE_ID = emp.EMPLOYEE_ID)
+							join equipments eq on (r.equipments_EQUIPMENT_ID = eq.EQUIPMENT_ID)
+							where r.STATUS = '대여'
+				            and r.equipments_EQUIPMENT_ID = ?) condiT 
+		           	on (jb.job_id = condiT.jobs_JOB_ID)
+                    join subpart on (subpart.part_no = condiT.subpart_part_no)
+					join position on (position.position_id = condiT.position_position_id)) tempT
+                on (dept.department_id = tempT.departments_department_id)
+				""";
+		
+		conn = Util.getConnection();
+		EmpVO emp = new EmpVO();
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, eqId);
+
+			System.out.println("//////////////////");
+			rs = pst.executeQuery();
+			System.out.println(rs);
+			emp = makeEmp(rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Util.dbDisconnect(rs, st, conn);
+		}
+		return emp;
+	}
+	
+	//장비대여
+	public int eqRental(int equipmentId, int employeeId) {
+		try {
+			String preQueryStatement  = """
+					select equipments_EQUIPMENT_ID FROM rental WHERE equipments_EQUIPMENT_ID = ?
+				""";
+			conn = Util.getConnection();
+			pst = conn.prepareStatement(preQueryStatement);
+			pst.setInt(1, equipmentId);
+			rs = pst.executeQuery();
+			if (!rs.next()) {
+				 String sql = """
+							insert into rental(equipments_EQUIPMENT_ID, employees_EMPLOYEE_ID, START_DATE, STATUS) 
+							values (?, ?, DATE_FORMAT(now(), '%Y-%m-%d'),'대여')
+							""";
+						pst = conn.prepareStatement(sql);
+						pst.setInt(1, equipmentId);
+						pst.setInt(2, employeeId);
+						resultCount = pst.executeUpdate();
+			            return resultCount;
+			 }else {
+				 resultCount = -1;
+				 System.out.println("! 이미 대여중인 장비입니다.");
+				 return resultCount;
+			 }
+		} catch(SQLException ex) {
+			resultCount = -1;
+			ex.printStackTrace();
+		} finally {
+			Util.dbDisconnect(rs, pst, conn);
+		}
+		return resultCount;
+	}
+	
+	//장비반납
+	public int eqRetrun(int eqId) {
+		String sql = """
+				update rental
+				set end_date = DATE_FORMAT(now(), '%Y-%m-%d'), status = '반납'
+				where equipments_EQUIPMENT_ID = ?
+				""";
+		conn = Util.getConnection();
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, eqId);
+			resultCount = pst.executeUpdate();
+		} catch (SQLException e) {
+			resultCount = -1;
+			e.printStackTrace();
+		} finally {
+			Util.dbDisconnect(null, pst, conn);
+		}
+		return resultCount;
+	}
+	
+	//rent테이블에 정보 삭제
+	public int rentInfoDelete(int eqId) {
+		String sql = """
+				delete from rental
+				where equipments_EQUIPMENT_ID = ?
+				""";
+		conn = Util.getConnection();
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, eqId);
+			resultCount = pst.executeUpdate();
+		} catch (SQLException e) {
+			resultCount = -1;
+			e.printStackTrace();
+		} finally {
+			Util.dbDisconnect(null, pst, conn);
+		}
+		return resultCount;
+	}
+	
+	//장비등록
+	public int eqInsert(EquiVO eq) {
+		String sql = """
+				insert into equipments (equipmentstype_TYPE_ID, equipmentscompany_CO_ID, MODEL, SERIAL_NO, PURCHASE_DATE, PRICE)
+				values (?, ?, ?, ?, ?, ?)
+				""";
+		conn = Util.getConnection();
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setString(1, eq.getEquiType().getTypeId());
+			pst.setString(2, eq.getEquiCompany().getCoId());
+			pst.setString(3, eq.getModel());
+			pst.setString(4, eq.getSerialNo());
+			pst.setDate(5, eq.getPurchaseDate());
+			pst.setInt(6,eq.getPrice());
+			resultCount = pst.executeUpdate(); 
+		} catch (SQLException e) {
+			resultCount = -1;
+			e.printStackTrace();
+		} finally {
+			Util.dbDisconnect(null, pst, conn);
+		}
+		return resultCount;
+	}
+	
+	//장비정보수정(Update)
+	public int eqUpdate(EquiVO eq) {
+		String sql = """
+				update equipments
+				set equipmentstype_TYPE_ID = ?,
+					equipmentscompany_CO_ID =?, 
+					MODEL = ?, 
+					SERIAL_NO = ?, 
+					PURCHASE_DATE = ?, 
+					PRICE= ?
+				where equipment_ID = ?
+				""";
+		conn = Util.getConnection();
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setString(1,eq.getEquiType().getTypeId());
+			pst.setString(2,eq.getEquiCompany().getCoId());
+			pst.setString(3, eq.getModel());
+			pst.setString(4, eq.getSerialNo());
+			pst.setDate(5, eq.getPurchaseDate());
+			pst.setInt(6,eq.getPrice());
+			pst.setInt(7,eq.getEquipmentId());
+			resultCount = pst.executeUpdate();
+		} catch (SQLException e) {
+			resultCount = -1;
+			e.printStackTrace();
+		} finally {
+			Util.dbDisconnect(null, pst, conn);
+		}
+		return resultCount;
+	}
+	
+	//장비삭제
+	public int eqDelete(int eqId) {
+		String sql = """
+				delete from equipments
+				where equipment_id = ?
+				""";
+		conn = Util.getConnection();
+		try {
+			pst = conn.prepareStatement(sql);
+			pst.setInt(1, eqId);
+			resultCount = pst.executeUpdate();
+		} catch (SQLException e) {
+			resultCount = -1;
+		} finally {
+			Util.dbDisconnect(null, pst, conn);
+		}
+		return resultCount;
+	}
+	
+	// 장비 필드 생성
+	private EquiVO makeEqui(ResultSet rs) throws SQLException {
+		System.out.println("////////////////// funt");
+		EquiVO equi = new EquiVO();
+		EquiTypeVO equiType = new EquiTypeVO();
+		EquiCompanyVO equiCom = new EquiCompanyVO();
+		
+		equi.setEquipmentId(rs.getInt("equipment_id"));
+		equiType.setTypeId(rs.getString("equipmentstype_TYPE_ID"));
+		equiCom.setCoId(rs.getString("equipmentscompany_CO_ID"));
+		equi.setModel(rs.getString("MODEL"));
+		equi.setSerialNo(rs.getString("SERIAL_NO"));
+		equi.setPurchaseDate(rs.getDate("PURCHASE_DATE"));
+		equi.setPrice(rs.getInt("PRICE"));
+		
+		equi.setEquiType(equiType);
+		equi.setEquiCompany(equiCom);
+		return equi;
+	}
+	
+	// 직원 필드 생성
+	private EmpVO makeEmp(ResultSet rs) throws SQLException {
+		EmpVO emp = new EmpVO();
+		JobsVO jobs = new JobsVO();
+		SubpartVO subpart = new SubpartVO();
+		DeptVO dept = new DeptVO();
+		PositionVO position = new PositionVO();
+		
+		emp.setEmployeeId(rs.getInt("Employee_id"));
+		emp.setFirstName(rs.getString("First_name"));
+		emp.setLastName(rs.getString("Last_name"));
+		emp.setEmail(rs.getString("Email"));
+		emp.setPhoneNumber(rs.getString("Phone_number"));
+		emp.setHireDate(rs.getDate("Hire_date"));
+		jobs.setJobId(rs.getString("jobs_JOB_ID"));
+		jobs.setJobTitle(rs.getString("JOB_TITLE"));
+		emp.setSalary(rs.getInt("Salary"));
+		dept.setDepartmentId(rs.getInt("DEPARTMENT_ID"));
+		dept.setDepartmentName(rs.getString("DEPARTMENT_NAME"));
+		subpart.setPartNo(rs.getInt("subpart_PART_NO"));
+		subpart.setDept(dept);
+		subpart.setPartName(rs.getString("PART_NAME"));
+		position.setPositionId(rs.getInt("position_POSITION_ID"));
+		position.setPositionTitle(rs.getString("POSITION_TITLE"));
+		
+		emp.setJobs(jobs);
+		emp.setSubpart(subpart);
+		emp.setPosition(position);
+		return emp;
+	}
+		
+	
+}

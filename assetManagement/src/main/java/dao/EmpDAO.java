@@ -44,6 +44,8 @@ public class EmpDAO {
 		}
 		return emplist;
 	}
+	
+	//직원및 부서조회
 	public List<EmpVO> allEmpAndDept() {
 		String sql = """
 				select employee_id, first_name, last_name, department_name 

@@ -1,0 +1,48 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="path" value="${pageContext.request.contextPath}"></c:set>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>직원 상세 정보</title>
+</head>
+<body>
+	<div id="change-List-contents">
+		<table class="table table-hover" border="1">
+			<thead>
+				<tr class="table-list">
+					<th class="col0">직원ID</th>
+					<th class="col1">성</th>
+					<th class="col2">이름</th>
+					<th class="col3">이메일</th>
+					<th class="col4">전화번호</th>
+					<th class="col5">입사일</th>
+					<th class="col6">연봉</th>
+					<th class="col7">팀</th>
+					<th class="col8">파트</th>
+					<th class="col9">직책</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${empInfo}" var="employee" varStatus="status">
+					<tr class="emp">
+						<th class="col0">${employee.employeeId}</th>
+						<td class="col1">${employee.firstName}</td>
+						<td class="col2">${employee.lastName}</td>
+						<td class="col3">${employee.email}</td>
+						<td class="col4">${employee.phoneNumber}</td>
+						<td class="col5">${employee.hireDate}</td>
+						<td class="col6">${employee.salary}</td>
+						<%-- <td class="col7">${employee.jobs}</td>
+						<td class="col8">${employee.subpart}</td>
+						<td class="col9">${employee.position}</td> --%>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

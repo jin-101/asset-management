@@ -16,12 +16,6 @@
 		<div id="selector-search-header">
 			<div class="selector-search-left">
 				<label id="selector-name"></label>
-				<%-- <select name="" id="optionSelect">
-					<option>선택하세요</option>
-			    	<c:forEach items="${selectorlist}" var="item">
-			    		<option>${item}</option>
-			    	</c:forEach>
-			    </select> --%>
 			</div>
 		    <div class="selector-search-right">
 		    	<button class="search-btn btn btn-primary">검색</button>

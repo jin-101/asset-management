@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,9 +15,9 @@ public class SearchEmployeeByEquipmentIdController implements CommonControllerIn
 		HttpServletRequest request = (HttpServletRequest) data.get("request");
 		EquipmentService service = new EquipmentService();
 		int eqId = Integer.parseInt(request.getParameter("eqId"));
-		EmpVO emp =  service.equiIdSearch(eqId);
-		request.setAttribute("empInfo", emp);
-		String page = "/assetManagement/emp/empDetail.jsp";
+		List<EmpVO> emplist =  service.equiIdSearch(eqId);
+		request.setAttribute("empInfo", emplist);
+		String page = "../emp/empDetail.jsp";
 		return page;
 	}
 

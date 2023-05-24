@@ -44,7 +44,7 @@ public class EquipmentService {
 		return eqDao.userEqSearch(userId);
 	}
 	//장비ID별 현재 사용자 조회
-	public EmpVO equiIdSearch(int eqId) {
+	public List<EmpVO> equiIdSearch(int eqId) {
 		return eqDao.equiIdSearch(eqId);
 	}
 	//장비대여
